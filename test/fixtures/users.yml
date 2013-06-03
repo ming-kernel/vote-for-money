@@ -1,0 +1,18 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  name: 'one'
+  password_digest: 'private'
+
+two:
+  id: 2
+  name: 'two'
+  password_digest: 'private'
+
+
+three:
+  id: 3
+  name: 'three'
+  password_digest: 'private'
+

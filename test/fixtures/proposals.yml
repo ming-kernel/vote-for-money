@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+one:
+  id: 1
+  group_id: 1
+  round_id: 0
+  from: 1
+  to: 2
+  accept: true
+
+two:
+  id: 2
+  group_id: 1
+  round_id: 0
+  from: 2
+  to: 1
+  accept: false
+
+three:
+  id: 3
+  group_id: 1
+  round_id: 1
+  from: 1
+  to: 2
+  money_a: 1
+  money_b: 200
+  money_c: 300
+  accept: false
+
+

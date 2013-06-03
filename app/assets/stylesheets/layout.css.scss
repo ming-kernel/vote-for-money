@@ -1,0 +1,48 @@
+#header {
+  text-align: center;
+  margin-bottom: 2em;
+  .pure-g {
+    .pure-u-1 {
+      display: block;
+      .pure-menu,
+      .pure-menu-open,
+      .pure-menu-fixed {
+        border: 0;
+        //border-bottom: 1px solid #b7b7b7;
+
+        ul {
+          display: inline-block;
+          zoom: 1;
+          vertical-align: middle;
+
+          li {
+            position: relative;
+            padding: 1em;
+            //margin-right: 2em;
+
+          }
+        }
+      }
+    }
+  }
+
+}
+
+#my_name {
+  background: rgb(76, 201, 71);
+}
+
+
+#content {
+  margin: 3em auto 0;
+  padding: 3em 0.5em;
+  float: left;
+  //background: #eee;
+
+}
+
+#sidebar {
+  float: right;
+  border: solid 1px;
+
+}

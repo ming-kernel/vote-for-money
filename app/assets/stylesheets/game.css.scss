@@ -1,0 +1,65 @@
+// Place all the styles related to the Game controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.pure-button-success {
+  background: rgb(76, 201, 71); /* this is a green */
+  margin-left: 5em;
+}
+
+br {
+  border: 1px solid;
+}
+#opponent_name {
+  margin: 0;
+  background: rgb(76, 201, 71);
+}
+
+#left_opponent {
+  border: 1px solid;
+  float: left;
+  margin: 0;
+
+  #opponent_name, table {
+    margin-left: 5em;
+  }
+
+  form {
+    border-top: 1px solid;
+    //border: 1px solid;
+    margin-top: 8em;
+    input {
+      border: 1px solid;
+    }
+  }
+
+  p {
+    margin-left: 5em;
+  }
+
+}
+
+#right_opponent {
+  border: 1px solid;
+  float: right;
+  margin: 0;
+
+  #opponent_name, table {
+    margin-left: 5em;
+  }
+
+  form {
+    border-top: 1px solid;
+    margin-top: 8em;
+    input {
+      border: 1px solid;
+    }
+  }
+
+  p {
+    margin-left: 5em;
+  }
+
+}
+

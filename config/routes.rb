@@ -1,4 +1,27 @@
 Vote::Application.routes.draw do
+
+  post "proposals/create"
+
+
+  get "home/index"
+
+  get 'game/' => 'game#index'
+
+  resources :users
+
+  controller :session do
+    get 'login' => :new
+    post 'login' => :create
+    delete 'logout' => :destroy
+  end
+
+  get 'game/get-group-info' => 'game#get_group_info'
+  post 'game/do-something/' => 'game#do_something'
+
+  post 'proposals/accept' => 'proposals#accept'
+  post 'proposals/reject' => 'proposals#reject'
+
+  post 'users/next-round' => 'users#next_round'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,7 +71,7 @@ Vote::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
 
