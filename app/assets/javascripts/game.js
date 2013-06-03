@@ -95,12 +95,12 @@ $(function() {
             $elem.find('span#opponent_name').text(opponent.user_name);
 
         $elem.find('label').each(function (i, e) {
-            if ($.vote_group_data.users[i].user_name)
+            if ($.vote_group_data.users[i] && $.vote_group_data.users[i].user_name)
                 e.textContent = $.vote_group_data.users[i].user_name;
         });
 
         $elem.find('th').slice(1, 4).each(function (i, e) {
-            if ($.vote_group_data.users[i].user_name)
+            if ($.vote_group_data.users[i] && $.vote_group_data.users[i].user_name)
                 e.textContent = $.vote_group_data.users[i].user_name;
         });
 
