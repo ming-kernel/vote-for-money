@@ -1,14 +1,10 @@
 class User < ActiveRecord::Base
   belongs_to :group
-  attr_accessible :name, :password, :password_confirmation, :round_id
+  attr_accessible :name, :password, :password_confirmation, :round_id, :last_active
 
-  validates :name, presence: true
-  validates :round_id, presence: true
+  validates :name, :password, :password_confirmation, :round_id, presence: true
 
   validates :name, :uniqueness =>  true
-  #validates :name, :password, :password_confirmation, presence: true
-
-  #validates :password, :confirmation => true
 
   has_secure_password
 
@@ -41,7 +37,12 @@ class User < ActiveRecord::Base
       raise 'Parameter error'
     end
 
-    round_id = User.find(user_id).round_id
+    begin
+      round_id = User.find(user_id).round_id
+    rescue
+      puts 'user not found maybe because test case delete it first'
+      return nil
+    end
 
     update_last_active(user_id)
 
@@ -101,11 +102,14 @@ class User < ActiveRecord::Base
 
   def self.update_last_active(user_id)
     puts "update_last_active: user_id: #{user_id}"
-    user = User.find(user_id)
-    user.last_active = Time.now
-    unless user.save
-      raise 'update_last_active error'
-    end
+    
+    User.update(user_id, last_active: Time.now)
+    # user = User.find(user_id)
+    # user.last_active = Time.now
+    # user.save!
+    # unless user.save
+    #   raise 'update_last_active error'
+    # end
   end
 
   def self.authenticate(name, password)

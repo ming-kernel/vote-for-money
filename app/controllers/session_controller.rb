@@ -15,14 +15,14 @@ class SessionController < ApplicationController
       session[:user_name] = user.name
       session[:round_id] = user.group.round_id
 
-      flash[:notice] = 'Welcome back to the game'
+      flash[:notice] = 'Welcome to the game'
       #redirect_to :action => session[:intended_action],
       #            :controller => session[:intended_controller]
       redirect_to game_url
 
     else
-      flash[:notice] = 'Wrong username or password'
-      redirect_to login_url
+      flash[:notice] = 'Invalid username or password'
+      redirect_to login_url, error: 'Invalid username or password'
     end
   end
 

@@ -24,7 +24,7 @@ $(function() {
             url: 'users/next-round.json',
             type: 'POST',
             data: {
-                'user_id': $.vote_group_data.self.user_id,
+                'user_id': $.vote_group_data.self.user_id
             },
             success: function(d) {
 
@@ -49,14 +49,14 @@ $(function() {
                                       'user_id': group_info['self']['user_id']});
         if (group_info['opponents'][0]['user_name']) {
             $.vote_group_data.users.push({'user_name': group_info['opponents'][0]['user_name'],
-                                          'user_id': group_info['opponents'][0]['user_id']})
+                                          'user_id': group_info['opponents'][0]['user_id']});
         }
         if (group_info['opponents'][1]['user_name']) {
             $.vote_group_data.users.push({'user_name': group_info['opponents'][1]['user_name'],
-                                          'user_id': group_info['opponents'][1]['user_id']})
+                                          'user_id': group_info['opponents'][1]['user_id']});
         }
 
-        $.vote_group_data.users.sort(function(x, y) {return x.user_id - y.user_id});
+        $.vote_group_data.users.sort(function(x, y) {return x.user_id - y.user_id;});
 
     };
 
@@ -211,7 +211,7 @@ $(function() {
             var $money = $elem.find('input');
             var moneys = [];
             $money.each(function(i, e) {
-                moneys.push(parseInt(e.value));
+                moneys.push(parseInt(e.value, 10));
             });
             console.log("submit left proposal");
 
@@ -251,7 +251,7 @@ $(function() {
             var $money = $elem.find('input');
             var moneys = [];
             $money.each(function(i, e) {
-                moneys.push(parseInt(e.value));
+                moneys.push(parseInt(e.value, 10));
             });
 
             console.log('submit right proposal');
@@ -317,7 +317,7 @@ $(function() {
                 parse_decision(group_info);
                 update_model();
             }
-        })
+        });
     });
 
     timer.set({ time : 5000, autostart : true });

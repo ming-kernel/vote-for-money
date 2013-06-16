@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '1.9.2'
+ruby '1.9.3'
 gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
@@ -17,6 +17,16 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+end
+
+group :test, :development do
+  gem 'rspec-rails'
+  gem 'launchy'
+  gem 'database_cleaner'
+  gem "capybara"
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'jasmine'
+  gem 'pry-rails'
 end
 
 gem 'jquery-rails'

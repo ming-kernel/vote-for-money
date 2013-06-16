@@ -4,7 +4,8 @@ class Proposal < ActiveRecord::Base
 
   validates :group_id, :from, :to, :round_id, :money_a, :money_b, :money_c, presence: true
 
-
+  belongs_to :group
+  
   def self.current_round_is_over?(round_id, group_id)
     proposals = Proposal.where('group_id = ? AND round_id = ? AND accept = ?',
                                 group_id, round_id, true)
@@ -23,6 +24,10 @@ class Proposal < ActiveRecord::Base
                    accept: true).first
   end
 
+  # from: user_id
+  # to: user_id,
+  # group_id: group.id
+  # round_id: round_id
   def self.last_proposal(params = {})
 
     if current_round_is_over?(params[:round_id], params[:group_id])
@@ -95,10 +100,7 @@ class Proposal < ActiveRecord::Base
 #    decisions = [self.decision_a, self.decision_b, self.decision_c]
 #    rejects = decisions.select {|d| d == 2} .length
 #    if rejects >=2
-#      false
-#    else
-#      true
-#    end
+#      fa   end
 #  end
 #
 #  def self.have_current_pending_proposal?(user_id, round_id)

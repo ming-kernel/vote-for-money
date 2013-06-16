@@ -7,8 +7,5 @@ class Group < ActiveRecord::Base
                                             :greater_than => 0}
   validates :round_id, :numericality => {:greater_than_or_equal_to => 0}
 
-  def self.get_group_id(user_id)
-
-  end
 
 end
