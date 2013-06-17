@@ -27,7 +27,8 @@ $(function() {
                 'user_id': $.vote_group_data.self.user_id
             },
             success: function(d) {
-
+                // $('#dialog').dialog('open');
+                // alert('start next round');
                 console.log(d);
             }
         });
@@ -168,7 +169,6 @@ $(function() {
                 'to':$.vote_group_data.self.user_id
             },
             success: function(d) {
-
                 console.log(d);
             }
         });
@@ -196,7 +196,6 @@ $(function() {
                 'to':$.vote_group_data.self.user_id
             },
             success: function(d) {
-
                 console.log(d);
             }
         });
@@ -227,7 +226,7 @@ $(function() {
                 type: 'POST',
                 data: proposal,
                 success: function(d) {
-                    alert('proposal submited');
+                    // alert('proposal submited');
                     console.log(d);
 
                 }
@@ -268,7 +267,7 @@ $(function() {
                 type: 'POST',
                 data: proposal,
                 success: function(d) {
-                    alert('proposal submited');
+                    // alert('proposal submited');
                     console.log(d);
 
                 }
@@ -292,6 +291,17 @@ $(function() {
         init_right_opponent($('#right_opponent'), $.vote_group_data.opponents[1]);
 
     };
+
+
+    // $("#dialog").dialog({ autostart: true});
+
+    // $('html').click(function() {
+    //     $("#dialog").dialog("close");
+    // });
+
+    // $('#dialog').click(function(event){
+    //   event.stopPropagation();
+    // });
 
     // init myself
     $.getJSON('game/get-group-info.json', function(group_info) {
