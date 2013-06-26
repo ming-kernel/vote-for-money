@@ -3,12 +3,12 @@ class SessionController < ApplicationController
     if session[:user_id]
       redirect_to '/'
     end
-
   end
 
   # /login
   def create
-    user = User.authenticate(params[:username], params[:password])
+    login_params = params[:login]
+    user = User.authenticate(login_params[:username], login_params[:password])
     if user
       session[:user_id] = user.id
       session[:group_id] = user.group_id

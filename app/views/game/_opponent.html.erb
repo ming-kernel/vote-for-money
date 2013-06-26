@@ -1,6 +1,10 @@
-<span id="opponent_name"></span>'s proposals
+<div class='text-center lead'>
+  <span id="opponent_name"></span>'s proposals
+</div>
 
-<table class="pure-table">
+<hr/>
+
+<table class="table">
   <thead>
   <tr>
     <th>#</th>
@@ -23,39 +27,44 @@
 
 </table>
 
-<button class=".pure-button-small pure-button-success" type="submit">
-  Accept
-</button>
+<hr/>
+<div class="text-center">
+  <button class="btn btn-success btn-large" type="submit">
+    Accept
+  </button>
 
+</div>
 
-<form class="pure-form pure-form-aligned">
-  <fieldset>
-
-    <div class="pure-control-group">
-      <label for="first"></label>
-      <input id="first" type="text">
+<hr/>
+<form class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="first"></label>
+    <div class="controls">
+      <input type="text" id="first" class="input-mini">%
     </div>
-
-
-    <div class="pure-control-group">
-      <label for="second"></label>
-      <input id="second" type="text">
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="second"></label>
+    <div class="controls">
+      <input type="text" id="second" class="input-mini">%
     </div>
-
-
-    <div class="pure-control-group">
-      <label for="third"></label>
-      <input id="third" type="text" placeholder="Enter something here...">
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="thrid"></label>
+    <div class="controls">
+      <input type="text" id="third" class="input-mini">%
     </div>
+  </div>
 
-    <div class="pure-controls">
 
-      <button type="submit" class="pure-button">Submit</button>
-      
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn btn-success btn-large">Submit</button>
     </div>
-  </fieldset>
+  </div>
 </form>
-<p>Your proposal for <span id="opponent_name"></span></p>
+
+<p class="text-center lead">Your proposal to <span id="opponent_name"></span></p>
 
 
 

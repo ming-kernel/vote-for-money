@@ -1,16 +1,12 @@
-<div class="pure-g">
-  <div id="left_opponent" class="pure-u-11-24">
-    <%= render 'opponent' %>
-  </div>
+<div class="row-fluid">
 
-  <div id="right_opponent" class="pure-u-11-24">
-    <%= render 'opponent' %>
-  </div>
-  
+    <div id="left_opponent" class="span6">
+      <%= render 'opponent' %>
+    </div>
+
+    <div id="right_opponent" class="span6">
+      <%= render 'opponent' %>
+    </div>
 </div>
-
-<!-- <div id="dialog" title="Group Decision has been made">
-  <p>Go to next round</p>
-</div> -->
 
 <%= javascript_include_tag "game" %>

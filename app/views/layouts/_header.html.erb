@@ -1,26 +1,45 @@
-<div id="header" class="pure-g">
-  <div class="pure-u-1">
-    <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
-      <ul>
-        <li>
-          Vote for Money
-        </li>
-        <li>
-          <% if session[:user_name] %>
-              Welcome <span id="my_name"><%= session[:user_name]%></span>
-          <% else %>
-              <%= link_to 'Login', login_url %>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to 'Logout', logout_url, :method => :delete %>
-        </li>
-        <li>
-          <%= link_to 'Start', game_url %>
-        </li>
-      </ul>
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+ 
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+ 
+      <!-- Be sure to leave the brand out there if you want it shown -->
+      <a class="brand" href="#">Vote for Money</a>
+ 
+      <!-- Everything you want hidden at 940px or less, place within here -->
+      <div class="nav-collapse collapse">
+        <!-- .nav, .navbar-search, .navbar-form, etc -->
+        
+        <ul class="nav">
+          <li>
+            <%= link_to 'Home', root_url %>
+          </li>
+        </ul>
+        
+        <ul class="nav pull-right">
+          
+          <li>
+            <% if session[:user_name] %>
+              <a><%= session[:user_name] %></a>
+            <% else %>
+                <%= link_to 'Login', login_url %>
+            <% end %>
+          </li>
 
+          <li>
+            <%= link_to 'Logout', logout_url %>
+          </li>
+
+        </ul>
+      </div>
+ 
     </div>
-
   </div>
 </div>
+
