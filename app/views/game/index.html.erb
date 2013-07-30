@@ -1,12 +1,20 @@
 <div class="row-fluid">
+    <ul class="thumbnails">
+      <li id="left_opponent" class="span6">
+        <div class="thumbnail">
+          <%= render 'opponent' %>
+        </div>
 
-    <div id="left_opponent" class="span6">
-      <%= render 'opponent' %>
-    </div>
+      </li>
 
-    <div id="right_opponent" class="span6">
-      <%= render 'opponent' %>
-    </div>
+      <li id="right_opponent" class="span6">
+        <div class="thumbnail">
+          <%= render 'opponent' %>
+        </div>
+      </li>
+
+    </ul>
+
 </div>
 
 <%= javascript_include_tag "game" %>

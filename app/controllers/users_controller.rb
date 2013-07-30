@@ -50,6 +50,7 @@ class UsersController < ApplicationController
     @user.group_id = group.id
     respond_to do |format|
       if @user.save
+        set_auth_token(@user)
         format.html {
           session[:user_id] = @user.id
           session[:user_name] = @user.name

@@ -1,5 +1,8 @@
 Vote::Application.routes.draw do
 
+  # get "password_resets/new"
+  resources :password_resets
+
   post "proposals/create"
   get "home/index"
   get 'game/' => 'game#index'

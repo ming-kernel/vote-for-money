@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="row">
+    <div class="span6 offset3">
+      <%= simple_form_for :reset_email, :url => password_resets_path, :method => :post  do |f| %>
+        <%= f.input :email %>
+        <%= f.button :submit, 'Reset my password' %>
+      <% end %>
+    </div>
+  </div>
+</div>

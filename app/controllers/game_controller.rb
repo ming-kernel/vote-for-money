@@ -1,10 +1,13 @@
 class GameController < ApplicationController
   def index
-    unless session[:user_id]
-      session[:intended_action] = action_name
-      session[:intended_controller] = controller_name
-      redirect_to login_url
+    unless current_user
+      redirect_to login_url, notice: "You need to login in"
     end
+    # unless session[:user_id]
+    #   session[:intended_action] = action_name
+    #   session[:intended_controller] = controller_name
+    #   redirect_to login_url
+    # end
 
   end
 

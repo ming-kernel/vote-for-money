@@ -28,43 +28,46 @@
 </table>
 
 <hr/>
-<div class="text-center">
-  <button class="btn btn-success btn-large" type="submit">
-    Accept
-  </button>
 
+<div class="row-fluid">
+  <div class="span6 offset3">
+    <button class="btn btn-success btn-block" type="submit">
+      Accept
+    </button>
+  </div>
+  
 </div>
 
 <hr/>
-<form class="form-horizontal">
-  <div class="control-group">
-    <label class="control-label" for="first"></label>
-    <div class="controls">
-      <input type="text" id="first" class="input-mini">%
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label" for="second"></label>
-    <div class="controls">
-      <input type="text" id="second" class="input-mini">%
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label" for="thrid"></label>
-    <div class="controls">
-      <input type="text" id="third" class="input-mini">%
-    </div>
-  </div>
+<p class="text-center lead">Your proposal to <span id="opponent_name"></span></p>
+<form class="form-inline">
+    <div class="row-fluid">
+      <div class="span4">
+        <label for="first"></label>
+        <input type="text" id="first" class="input-mini">%
+      </div>
+      <div class="span4">
+        <label for="second"></label>
+        <input type="text" id="second" class="input-mini">%
+      </div>
+        
+      <div class="span4">
+        <label for="thrid"></label>
+        <input type="text" id="third" class="input-mini">%
+      </div>
 
-
-  <div class="control-group">
-    <div class="controls">
-      <button type="submit" class="btn btn-success btn-large">Submit</button>
     </div>
-  </div>
+
+    <hr/>
+    <div class="row-fluid">
+      <div class="span6 offset3">
+        <button type="submit" class="btn btn-success btn-block">Submit</button>
+      </div>
+    </div>
 </form>
 
-<p class="text-center lead">Your proposal to <span id="opponent_name"></span></p>
+
+
 
 
 
