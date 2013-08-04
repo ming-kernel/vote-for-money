@@ -8,11 +8,6 @@ describe User do
     user.should be_valid
   end
 
-  it "shoudl be invalid without round_id" do
-    user = build(:user, round_id: nil)
-    user.should_not be_valid
-  end
-
   it "should not be valid when password_confirmation is nil" do
     user = build(:user, password_confirmation: nil)
     user.should_not be_valid

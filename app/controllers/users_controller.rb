@@ -1,29 +1,5 @@
 class UsersController < ApplicationController
 
-  # GET /users
-  # GET /users.json
-  def index
-    @users = User.order(:name)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json {
-        render json: @users
-      }
-    end
-  end
-
-  # GET /users/1
-  # GET /users/1.json
-  def show
-    @user = User.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @user }
-    end
-  end
-
   # GET /users/new
   # GET /users/new.json
   def new
@@ -35,32 +11,27 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/1/edit
-  def edit
-    @user = User.find(params[:id])
-  end
-
   # POST /users
   # POST /users.json
   def create
     @user = User.new(params[:user])
     @user.last_active = Time.now
     @user.round_id = 0
-    group = @user.assign_new_group
-    @user.group_id = group.id
+    @user.earnings = 0
     respond_to do |format|
-      if @user.save
+      if @user.save!
         set_auth_token(@user)
         format.html {
           session[:user_id] = @user.id
           session[:user_name] = @user.name
-          session[:group_id] = group.id
-          session[:round_id] = group.round_id
-          redirect_to root_url, notice: 'Welcome to the game'
+          session[:group_id] = nil
+          session[:round_id] = nil
+          redirect_to root_url, notice: "Welcome #{@user.name}"
         }
         format.json { render json: @user, status: :created, location: @user }
       else
-        format.html { render action: "new" }
+        # format.html { render action: "new" }
+        format.html { redirect_to new_user_url, :notice => "Save failed" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -100,6 +71,7 @@ class UsersController < ApplicationController
     user_id = params[:user_id].to_i
     u = User.find(user_id)
     u.round_id = u.group.round_id
+    session[:round_id] = u.round_id
     respond_to do |format|
       if u.save
         format.json { render json: u }

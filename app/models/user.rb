@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   belongs_to :group
-  attr_accessible :email, :name, :password, :password_confirmation, :round_id, :last_active
+  attr_accessible :name, :password, :password_confirmation, :round_id, :last_active, :earnings
 
   validates_presence_of :password, :on => :create
   validates_presence_of :password_confirmation, :on => :create
@@ -64,9 +64,10 @@ class User < ActiveRecord::Base
     end
 
     update_last_active(user_id)
-
-    users = Group.find(group_id).users
+    group = Group.find(group_id)
+    users = group.users
     group_info = {}
+    group_info['round_id'] = group.round_id
     group_info['self'] = {}
     group_info['opponents'] = [{}, {}]
     group_info['round_decision'] = nil
@@ -77,6 +78,7 @@ class User < ActiveRecord::Base
       if user_id == u.id
         group_info['self']['user_name'] = u.name
         group_info['self']['user_id'] = u.id
+        group_info['self']['earnings'] = u.earnings
 
         if u.user_is_active
           group_info['self']['online'] = true
@@ -91,6 +93,7 @@ class User < ActiveRecord::Base
       else
         group_info['opponents'][o_idx]['user_name'] = u.name
         group_info['opponents'][o_idx]['user_id'] = u.id
+        group_info['opponents'][o_idx]['earnings'] = u.earnings
 
         if u.user_is_active
           group_info['opponents'][o_idx]['online'] = true
@@ -109,13 +112,6 @@ class User < ActiveRecord::Base
     end
     round_decision = Proposal.current_decision(round_id, group_id)
     group_info['round_decision'] =  round_decision
-
-    # update user's round_id
-    # if round_decision
-    #   u = User.find(user_id)
-    #   u.round_id = u.group.round_id
-    #   u.save!
-    # end
     group_info
   end
 

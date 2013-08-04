@@ -15,28 +15,12 @@ class SessionController < ApplicationController
         cookies[:auth_token] = { :value => user.auth_token, 
                                 :expires => 20.hours.from_now }
       end
-      redirect_to root_url, :notice => 'Logged in'
+      redirect_to root_url, :notice => "Welcome #{user.name}"
     else
       flash[:error] = "Invalid user name or password"
       render "new"
     end
 
-    # user = User.authenticate(login_params[:username], login_params[:password])
-    # if user
-    #   session[:user_id] = user.id
-    #   session[:group_id] = user.group_id
-    #   session[:user_name] = user.name
-    #   session[:round_id] = user.group.round_id
-
-    #   flash[:notice] = 'Welcome to the game'
-    #   #redirect_to :action => session[:intended_action],
-    #   #            :controller => session[:intended_controller]
-    #   redirect_to game_url
-
-    # else
-    #   flash[:notice] = 'Invalid username or password'
-    #   redirect_to login_url, error: 'Invalid username or password'
-    # end
   end
 
   def destroy

@@ -8,4 +8,15 @@ class Group < ActiveRecord::Base
   validates :round_id, :numericality => {:greater_than_or_equal_to => 0}
 
 
+  def update_users_from_group(moneys)
+    users = self.users
+    users.sort! { |a, b| a.id <=> b.id }
+    users.each_index do |i| 
+      users[i].earnings += moneys[i]
+      # users[i].round_id = self.round_id
+      users[i].save!
+    end
+
+  end
+
 end

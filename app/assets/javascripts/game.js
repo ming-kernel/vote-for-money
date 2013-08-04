@@ -4,16 +4,19 @@ $(function() {
     $.vote_group_data = {
         'users': [],
         'self': {'user_name': null,
-                 'user_id': null
+                 'user_id': null,
+                 'earnings': null
                 },
         'opponents': [{'user_name': null,
                        'user_id': null,
                        'online': false,
+                       'earnings': null,
                        'proposal': null
                       },
                       {'user_name': null,
                        'user_id': null,
                        'online': false,
+                       'earnings': null,
                        'proposal': null}
                      ],
         'round_decision': null
@@ -47,24 +50,27 @@ $(function() {
     var parse_group = function(group_info) {
         $.vote_group_data.users = [];
         $.vote_group_data.users.push({'user_name': group_info['self']['user_name'],
-                                      'user_id': group_info['self']['user_id']});
+                                      'user_id': group_info['self']['user_id'],
+                                      'earnings': group_info['self']['earnings']});
         if (group_info['opponents'][0]['user_name']) {
             $.vote_group_data.users.push({'user_name': group_info['opponents'][0]['user_name'],
-                                          'user_id': group_info['opponents'][0]['user_id']});
+                                          'user_id': group_info['opponents'][0]['user_id'],
+                                          'earnings': group_info['opponents'][0]['earnings']});
         }
         if (group_info['opponents'][1]['user_name']) {
             $.vote_group_data.users.push({'user_name': group_info['opponents'][1]['user_name'],
-                                          'user_id': group_info['opponents'][1]['user_id']});
+                                          'user_id': group_info['opponents'][1]['user_id'],
+                                          'earnings': group_info['opponents'][1]['earnings']});
         }
 
         $.vote_group_data.users.sort(function(x, y) {return x.user_id - y.user_id;});
-
+        $.vote_group_data['round_id'] = group_info['round_id'];
     };
 
     var parse_self = function(group_info) {
         $.vote_group_data.self.user_id = group_info['self']['user_id'];
         $.vote_group_data.self.user_name = group_info['self']['user_name'];
-
+        $.vote_group_data.self.earnings = group_info['self']['earnings'];
     };
 
     var parse_opponent = function (group_info) {
@@ -83,17 +89,36 @@ $(function() {
 
     var parse_decision = function (group_info) {
         $.vote_group_data.round_decision = group_info['round_decision'];
-        if ($.vote_group_data.round_decision) {
-            alert("An agreement has been made, let's start next round");
-            start_next_round();
-            reset_group_data();
+        
+    };
 
+    var draw_global_statis = function() {
+        $('#statistics thead th')[1].textContent = $.vote_group_data.users[0].user_name;
+        $('#statistics thead th')[2].textContent = $.vote_group_data.users[1].user_name;
+        $('#statistics thead th')[3].textContent = $.vote_group_data.users[2].user_name;
+        
+        // update last earnings
+        if ($.vote_group_data.round_decision) {
+            $('#statistics tbody tr')[1].children[1].textContent = $.vote_group_data.round_decision.money_a;
+            $('#statistics tbody tr')[1].children[2].textContent = $.vote_group_data.round_decision.money_b;
+            $('#statistics tbody tr')[1].children[3].textContent = $.vote_group_data.round_decision.money_c;
         }
+
+        // upate total earnings
+        $('#statistics tbody tr')[0].children[1].textContent = $.vote_group_data.users[0].earnings;
+        $('#statistics tbody tr')[0].children[2].textContent = $.vote_group_data.users[1].earnings;
+        $('#statistics tbody tr')[0].children[3].textContent = $.vote_group_data.users[2].earnings;
+
     };
 
     var draw_name_on_opponent = function($elem, opponent) {
         if (opponent.user_name)
             $elem.find('span#opponent_name').text(opponent.user_name);
+
+        if (opponent.online === false)
+            $elem.find('span#status').text("(offline)").addClass("muted");
+        else
+            $elem.find('span#status').text("(online)").addClass("text-success");
 
         $elem.find('label').each(function (i, e) {
             if ($.vote_group_data.users[i] && $.vote_group_data.users[i].user_name)
@@ -106,6 +131,7 @@ $(function() {
         });
 
     };
+
 
     var draw_proposal_on_opponent = function($elem, opponent) {
 
@@ -126,6 +152,16 @@ $(function() {
         }
     };
 
+    var clear_opponent_proposal = function() {
+        $('#left_opponent #opponent td')[1].textContent = '';
+        $('#left_opponent #opponent td')[2].textContent = '';
+        $('#left_opponent #opponent td')[3].textContent = '';
+
+        $('#right_opponent #opponent td')[1].textContent = '';
+        $('#right_opponent #opponent td')[2].textContent = '';
+        $('#right_opponent #opponent td')[3].textContent = '';
+    };
+
 
     var update_model = function () {
         var left_opponent = $.vote_group_data.opponents[0];
@@ -143,7 +179,15 @@ $(function() {
             draw_proposal_on_opponent($('#right_opponent'), right_opponent);
         }
 
+        // console.log('round_id = ' + $.vote_group_data['round_id']);
+        $('#round-id span').text($.vote_group_data['round_id']);
+        draw_global_statis();
 
+        if ($.vote_group_data.round_decision) {
+            // alert("An agreement has been made, let's start next round");
+            start_next_round();
+            reset_group_data();
+        }
     };
 
     var accept_left_proposal = function() {
@@ -170,6 +214,7 @@ $(function() {
             },
             success: function(d) {
                 console.log(d);
+                clear_opponent_proposal();
             }
         });
 
@@ -191,27 +236,42 @@ $(function() {
             url: 'proposals/accept.json',
             type: 'POST',
             data: {
-                'proposal_id': opponent.proposal.proposal_id,
+                'proposal_id': opponent.proposal.id,
                 'from': opponent.user_id,
                 'to':$.vote_group_data.self.user_id
             },
             success: function(d) {
                 console.log(d);
+                clear_opponent_proposal();
             }
         });
 
 
     };
 
+    var money_is_valid = function(moneys) {
+        var sum = 0;
+        for (var i = 0; i < moneys.length; i++) {
+            sum += moneys[i];
+        }
+        return sum === 100;
+    };
+
     var init_left_opponent = function($elem, opponent) {
         draw_name_on_opponent($elem, opponent);
 
-        $elem.children('form').submit(function() {
+        $elem.find('form').submit(function() {
             var $money = $elem.find('input');
             var moneys = [];
             $money.each(function(i, e) {
                 moneys.push(parseInt(e.value, 10));
             });
+
+            if (!money_is_valid(moneys)) {
+                alert("sum of money should be 100");
+                return false;
+            }
+
             console.log("submit left proposal");
 
             var proposal = {'proposal': {
@@ -235,7 +295,7 @@ $(function() {
             return false;
         });
 
-        $elem.children('button').click(function() {
+        $elem.find('#accept').click(function() {
             accept_left_proposal();
             return false;
         });
@@ -246,13 +306,17 @@ $(function() {
     var init_right_opponent = function($elem, opponent) {
         draw_name_on_opponent($elem, opponent);
 
-        $elem.children('form').submit(function() {
+        $elem.find('form').submit(function() {
             var $money = $elem.find('input');
             var moneys = [];
             $money.each(function(i, e) {
                 moneys.push(parseInt(e.value, 10));
             });
 
+            if (!money_is_valid(moneys)) {
+                alert("sum of money should be 100");
+                return false;
+            }
             console.log('submit right proposal');
 
             var proposal = {'proposal': {
@@ -276,7 +340,7 @@ $(function() {
             return false;
         });
 
-        $elem.children('button').click(function() {
+        $elem.find('#accept').click(function() {
             accept_right_proposal();
             return false;
         });
@@ -289,7 +353,7 @@ $(function() {
 
         init_left_opponent($('#left_opponent'), $.vote_group_data.opponents[0]);
         init_right_opponent($('#right_opponent'), $.vote_group_data.opponents[1]);
-
+        draw_global_statis();
     };
 
 
@@ -312,8 +376,6 @@ $(function() {
         init_model();
     });
 
-
-
     var timer = $.timer(function() {
 
         $.ajax({
@@ -321,6 +383,7 @@ $(function() {
             type: 'GET',
             data: 'hi',
             success: function(group_info) {
+                console.log(group_info);
                 parse_group(group_info);
                 parse_self(group_info);
                 parse_opponent(group_info);

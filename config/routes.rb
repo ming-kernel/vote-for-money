@@ -6,7 +6,13 @@ Vote::Application.routes.draw do
   post "proposals/create"
   get "home/index"
   get 'game/' => 'game#index'
-
+  get 'admin/' => 'admin#index'
+  get 'admin/show_users' => 'admin#show_users'
+  get 'admin/show_groups' => 'admin#show_groups'
+  get 'admin/show_proposals' => 'admin#show_proposals'
+  get "admin/assign_users" => 'admin#assign_users'
+  get "admin/delete_users" => 'admin#delete_users'
+  
   resources :users
 
   controller :session do

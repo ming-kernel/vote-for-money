@@ -2,13 +2,14 @@ class GameController < ApplicationController
   def index
     unless current_user
       redirect_to login_url, notice: "You need to login in"
+      return false
     end
-    # unless session[:user_id]
-    #   session[:intended_action] = action_name
-    #   session[:intended_controller] = controller_name
-    #   redirect_to login_url
-    # end
 
+    session[:group_id] = current_user.group_id
+    session[:user_id] = current_user.id
+    if (!session[:group_id])
+      redirect_to root_url, notice: "Admin haven't signed you a group, please wait"
+    end
   end
 
   def get_group_info
@@ -18,10 +19,6 @@ class GameController < ApplicationController
       format.json { render json: group_info }
     end
 
-  end
-
-  def do_something
-    render :text => params
   end
 
 end

@@ -81,6 +81,10 @@ class Proposal < ActiveRecord::Base
         group = Group.find(params[:group_id])
         group.round_id += 1
         group.save!
+        
+        # update user's earning points
+        group.update_users_from_group([p.money_a, p.money_b, p.money_c])
+
         p
       else
         nil
