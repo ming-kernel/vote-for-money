@@ -11,13 +11,16 @@ $(function() {
                        'user_id': null,
                        'online': false,
                        'earnings': null,
-                       'proposal': null
+                       'proposal': null,
+                       'last_proposal_id': null
                       },
                       {'user_name': null,
                        'user_id': null,
                        'online': false,
                        'earnings': null,
-                       'proposal': null}
+                       'proposal': null,
+                       'last_proposal_id': null
+                      }
                      ],
         'round_decision': null
     };
@@ -83,8 +86,20 @@ $(function() {
             right_opponent = tmp;
         }
 
-        $.vote_group_data.opponents[0] = left_opponent;
-        $.vote_group_data.opponents[1] = right_opponent;
+        $.vote_group_data.opponents[0].user_name = left_opponent.user_name;
+        $.vote_group_data.opponents[0].user_id = left_opponent.user_id;
+        $.vote_group_data.opponents[0].online = left_opponent.online;
+        $.vote_group_data.opponents[0].earnings = left_opponent.earnings;
+        $.vote_group_data.opponents[0].proposal = left_opponent.proposal;
+  
+        $.vote_group_data.opponents[1].user_name = right_opponent.user_name;
+        $.vote_group_data.opponents[1].user_id = right_opponent.user_id;
+        $.vote_group_data.opponents[1].online = right_opponent.online;
+        $.vote_group_data.opponents[1].earnings = right_opponent.earnings;
+        $.vote_group_data.opponents[1].proposal = right_opponent.proposal;      
+        // if (!$.vote_group_data.opponents[1].last_proposal_id)
+        //     $.vote_group_data.opponents[1].last_proposal_id = right_opponent.proposal.id;
+
     };
 
     var parse_decision = function (group_info) {
@@ -137,18 +152,11 @@ $(function() {
 
         if (opponent.proposal) {
             console.log('get something');
-//            $table_body = $elem.find('#opponent');
-
             var $td = $elem.find('td');
             $td[1].textContent = opponent.proposal.money_a;
             $td[2].textContent = opponent.proposal.money_b;
             $td[3].textContent = opponent.proposal.money_c;
-
-//            var row_string = '<tr><td>' + opponent.proposal.money_a + '</td>' +
-//                                  '<td>' + opponent.proposal.money_b + '</td>' +
-//                                  '<td>' + opponent.proposal.money_c + '</td></tr>';
-//            $(row_string).appendTo($table_body);
-
+            // $td.effect("highlight", {}, 3000);
         }
     };
 
@@ -170,6 +178,14 @@ $(function() {
             console.log('update left');
             draw_name_on_opponent($('#left_opponent'), left_opponent);
             draw_proposal_on_opponent($('#left_opponent'), left_opponent);
+
+            if (left_opponent.proposal && $.vote_group_data.opponents[0].last_proposal_id != left_opponent.proposal.id) {
+                $('#left_opponent').find('td').effect("highlight", {}, 3000);
+                // alert(left_opponent.proposal.id + " " + $.vote_group_data.opponents[0].last_proposal_id);
+                $.vote_group_data.opponents[0].last_proposal_id = left_opponent.proposal.id;
+
+            }
+
         }
 
 
@@ -177,6 +193,11 @@ $(function() {
             console.log('update right');
             draw_name_on_opponent($('#right_opponent'), right_opponent);
             draw_proposal_on_opponent($('#right_opponent'), right_opponent);
+
+            if (right_opponent.proposal && $.vote_group_data.opponents[1].last_proposal_id != right_opponent.proposal.id) {
+                $('#right_opponent').find('td').effect("highlight", {}, 3000);
+                $.vote_group_data.opponents[1].last_proposal_id = right_opponent.proposal.id;
+            }            
         }
 
         // console.log('round_id = ' + $.vote_group_data['round_id']);
