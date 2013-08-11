@@ -1,6 +1,7 @@
 class Proposal < ActiveRecord::Base
   attr_accessible :group_id, :from, :to, :round_id,
-                  :money_a, :money_b, :money_c
+                  :money_a, :money_b, :money_c,
+                  :penalty_from, :penalty_to
 
   validates :group_id, :from, :to, :round_id, :money_a, :money_b, :money_c, presence: true
 
@@ -24,6 +25,16 @@ class Proposal < ActiveRecord::Base
                    accept: true).first
   end
 
+    def self.last_round_decision(round_id, group_id)
+    if (round_id == 0)
+      nil
+    else
+      Proposal.where(group_id: group_id,
+                     round_id: round_id - 1,
+                     accept: true).first
+    end
+  end
+
   # from: user_id
   # to: user_id,
   # group_id: group.id
@@ -45,8 +56,6 @@ class Proposal < ActiveRecord::Base
     end
   end
 
-
-
   def self.submit_proposal(params = {})
     round_id = User.find(params[:from]).round_id
     if current_round_is_over?(round_id, params[:group_id])
@@ -55,6 +64,8 @@ class Proposal < ActiveRecord::Base
       p = Proposal.new(params)
       p.accept = false
       p.round_id = round_id
+      p.penalty_from = 0
+      p.penalty_to = 0
       if p.save!
         p
       else
@@ -70,7 +81,6 @@ class Proposal < ActiveRecord::Base
       nil
     else
       p = Proposal.find(params[:proposal_id])
-
       unless p
         raise 'No proposal found'
       end
@@ -83,9 +93,10 @@ class Proposal < ActiveRecord::Base
         group.save!
         
         # update user's earning points
-        group.update_users_from_group([p.money_a, p.money_b, p.money_c])
-
-        p
+        from_penalty, to_penalty = group.update_users_from_group(params[:from], params[:to], round_id, [p.money_a, p.money_b, p.money_c])
+        p.penalty_from = from_penalty
+        p.penalty_to = to_penalty
+        p.save!
       else
         nil
       end

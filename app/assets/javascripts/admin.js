@@ -58,15 +58,15 @@ $(function() {
   };
 
   var draw_groups = function(groups) {
-    var head = "<tr><th>#</th><th>Group id</th><th>Users number</th><th>Round id</th></tr>";
+    var head = "<tr><th>#</th><th>Group id</th><th>Users number</th><th>Round id</th><th>Betray Penalty</th></tr>";
     clear_draw_data();
     $('#groups').addClass('active');
     $('#draw-head').append(head);
     var body = "";
 
     for (var i = 0; i < groups.length; i++) {
-      body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", 
-                                  i + 1, groups[i].id, groups[i].users_number, groups[i].round_id);
+      body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", 
+                                  i + 1, groups[i].id, groups[i].users_number, groups[i].round_id, groups[i].betray_penalty);
     }
     $('#draw-body').append(body);
   };

@@ -12,7 +12,9 @@ Vote::Application.routes.draw do
   get 'admin/show_proposals' => 'admin#show_proposals'
   get "admin/assign_users" => 'admin#assign_users'
   get "admin/delete_users" => 'admin#delete_users'
-  
+  get "admin/stop_game" => 'admin#stop_game'
+  get "admin/resume_game" => 'admin#resume_game'
+    
   resources :users
 
   controller :session do

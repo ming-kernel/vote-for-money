@@ -1,5 +1,5 @@
 <div class="row-fluid">
-  <p id="round-id" class="text-info text-center">Current round is <span></span></p>
+  <p id="round-penalty" class="text-info text-center"></p>
 </div>
 
 <div class="row-fluid">
@@ -49,5 +49,16 @@
     </ul>
 
 </div>
+
+
+<div id="next-round" class="modal hide" data-backdrop="static" data-keyboard="false">
+  <div class="modal-body">
+    <p>A deal is reached between <span id="first"></span> and <span id="second"></span>, Press OK to wait others to confirm and begin next round</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" id="ok">OK</a>
+  </div>
+</div>
+
 
 <%= javascript_include_tag "game" %>

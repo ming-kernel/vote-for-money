@@ -11,13 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130804132140) do
+ActiveRecord::Schema.define(:version => 20130811171550) do
+
+  create_table "admins", :force => true do |t|
+    t.boolean  "stop"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "groups", :force => true do |t|
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.integer  "users_number"
     t.integer  "round_id"
+    t.integer  "betray_penalty"
   end
 
   create_table "proposals", :force => true do |t|
@@ -27,10 +34,12 @@ ActiveRecord::Schema.define(:version => 20130804132140) do
     t.decimal  "money_a"
     t.decimal  "money_b"
     t.decimal  "money_c"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "to"
     t.boolean  "accept"
+    t.integer  "penalty_from"
+    t.integer  "penalty_to"
   end
 
   create_table "users", :force => true do |t|

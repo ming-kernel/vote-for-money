@@ -67,10 +67,18 @@ class User < ActiveRecord::Base
     group = Group.find(group_id)
     users = group.users
     group_info = {}
+    group_info['stop'] = false
     group_info['round_id'] = group.round_id
+    group_info['betray_penalty'] = group.betray_penalty;
     group_info['self'] = {}
     group_info['opponents'] = [{}, {}]
     group_info['round_decision'] = nil
+
+    if (Admin.game_is_over)
+      group_info['stop'] = true
+      # return group_info
+    end
+
     o_idx = 0
     users.each do |u|
 
@@ -79,6 +87,7 @@ class User < ActiveRecord::Base
         group_info['self']['user_name'] = u.name
         group_info['self']['user_id'] = u.id
         group_info['self']['earnings'] = u.earnings
+        group_info['self']['round_id'] = u.round_id
 
         if u.user_is_active
           group_info['self']['online'] = true
@@ -94,6 +103,7 @@ class User < ActiveRecord::Base
         group_info['opponents'][o_idx]['user_name'] = u.name
         group_info['opponents'][o_idx]['user_id'] = u.id
         group_info['opponents'][o_idx]['earnings'] = u.earnings
+        group_info['opponents'][o_idx]['round_id'] = u.round_id
 
         if u.user_is_active
           group_info['opponents'][o_idx]['online'] = true
@@ -111,7 +121,13 @@ class User < ActiveRecord::Base
 
     end
     round_decision = Proposal.current_decision(round_id, group_id)
+    last_round_decision = Proposal.last_round_decision(round_id, group_id)
     group_info['round_decision'] =  round_decision
+    group_info['last_round_decision'] = last_round_decision
+    puts '='*30
+    puts round_id
+    puts round_decision
+    puts '='*30
     group_info
   end
 

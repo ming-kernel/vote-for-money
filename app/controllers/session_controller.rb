@@ -15,6 +15,7 @@ class SessionController < ApplicationController
         cookies[:auth_token] = { :value => user.auth_token, 
                                 :expires => 20.hours.from_now }
       end
+      
       redirect_to root_url, :notice => "Welcome #{user.name}"
     else
       flash[:error] = "Invalid user name or password"
