@@ -58,7 +58,7 @@ $(function() {
   };
 
   var draw_groups = function(groups) {
-    var head = "<tr><th>#</th><th>Group id</th><th>Users number</th><th>Round id</th><th>Betray Penalty</th></tr>";
+    var head = "<tr><th>#</th><th>Group id</th><th>Number of Users</th><th>Round id</th><th>Betray Penalty</th></tr>";
     clear_draw_data();
     $('#groups').addClass('active');
     $('#draw-head').append(head);
@@ -72,7 +72,7 @@ $(function() {
   };
 
   var draw_proposals = function(proposals) {
-    var head = "<tr><th>Proposal id</th><th>From</th><th>To</th><th>Round id</th><th>Accepted?</th></tr>";
+    var head = "<tr><th>Proposal id</th><th>Submited from</th><th>Submited to</th><th>Round id</th><th>Accepted?</th><th>Submit time</th><th>Accept time</th></tr>";
     clear_draw_data();
     $('#proposals').addClass('active');    
     $('#draw-head').append(head);
@@ -80,8 +80,12 @@ $(function() {
     var body = "";
 
     for (var i = 0; i < proposals.length; i++) {
-      body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>",
-                                  proposals[i].id, proposals[i].from, proposals[i].to, proposals[i].round_id, proposals[i].accept);
+      if (proposals[i].accept === true)
+        body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>",
+                                    proposals[i].id, proposals[i].from, proposals[i].to, proposals[i].round_id, "YES", proposals[i].created_at, proposals[i].updated_at);
+      else
+        body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>",
+                                    proposals[i].id, proposals[i].from, proposals[i].to, proposals[i].round_id, "NO", proposals[i].created_at, "X");
     }
 
     $('#draw-body').append(body);

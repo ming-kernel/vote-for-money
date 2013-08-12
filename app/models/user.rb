@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
 
   def self.get_group_info(user_id, group_id)
     if !user_id || !group_id
-      raise 'Parameter error'
+      return nil
     end
 
     begin

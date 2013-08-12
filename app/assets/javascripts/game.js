@@ -4,6 +4,7 @@ $(function() {
     $.vote_group_data = {
         'stop': false,
         'betray_penalty': 0,
+        'round_id': null,
         'users': [],
         'self': {'user_name': null,
                  'user_id': null,
@@ -216,7 +217,24 @@ $(function() {
         $('#right_opponent #opponent td')[3].textContent = '';
     };
 
+    var clear_my_proposal = function() {
+        var $left_money = $('#left_opponent form').find('input');
+        $left_money.each(function(i, e) {
+            e.value = '';
+        });
+
+        var $right_money = $('#right_opponent form').find('input');
+        $right_money.each(function(i, e) {
+            e.value = '';
+        });
+
+    };
+
     var round_id_synced = function() {
+        // group data has not received
+        if (!$.vote_group_data.round_id)
+            return true;
+
         if ($.vote_group_data.round_id === $.vote_group_data.users[0].round_id &&
             $.vote_group_data.round_id === $.vote_group_data.users[1].round_id &&
             $.vote_group_data.round_id === $.vote_group_data.users[2].round_id)
@@ -265,6 +283,7 @@ $(function() {
 
         }
 
+        clear_my_proposal();
         
     }
 
@@ -396,9 +415,9 @@ $(function() {
                     // alert('proposal submited');
                     // console.log(d);
                     console.log("submited left proposal");
-                    $money.each(function(i, e) {
-                        e.value = '';
-                    });
+                    // $money.each(function(i, e) {
+                    //     e.value = '';
+                    // });
 
                 }
             });
@@ -444,9 +463,9 @@ $(function() {
                 success: function(d) {
                     // alert('proposal submited');
                     console.log("submitted right proposal");
-                    $money.each(function(i, e) {
-                        e.value = '';
-                    });
+                    // $money.each(function(i, e) {
+                    //     e.value = '';
+                    // });
 
                 }
             });
@@ -471,16 +490,6 @@ $(function() {
     };
 
 
-    // $("#dialog").dialog({ autostart: true});
-
-    // $('html').click(function() {
-    //     $("#dialog").dialog("close");
-    // });
-
-    // $('#dialog').click(function(event){
-    //   event.stopPropagation();
-    // });
-
     var stop_game = function() {
         $('#game-stop').modal('show');
         $('#game-stop #ok').click(function() {
@@ -491,8 +500,11 @@ $(function() {
 
     // init myself
     $.getJSON('game/get-group-info.json', function(group_info) {
-        if (!group_info)
-            return;
+        if (!group_info) {
+            alert("Please wait for Administrator to assgin you a group");
+            return;    
+        }
+            
 
         if (group_info.stop === true) {
             stop_game();
@@ -520,6 +532,9 @@ $(function() {
 
             if (round_id_synced())
                 $('#next-round').modal('hide');
+
+            if ($.vote_group_data.round_id === null && group_info.round_id === 0)
+                alert("You can start game now!");
 
             parse_group(group_info);
             parse_self(group_info);

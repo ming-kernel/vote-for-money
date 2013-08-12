@@ -6,15 +6,15 @@ class GameController < ApplicationController
     end
 
     session[:group_id] = current_user.group_id
-    session[:user_id] = current_user.id
-    if (!session[:group_id])
-      redirect_to root_url, notice: "Admin haven't signed you a group, please wait"
-    end
+    # session[:user_id] = current_user.id
+    # if (!session[:group_id])
+    #   redirect_to root_url, notice: "Admin haven't signed you a group, please wait"
+    # end
   end
 
   def get_group_info
 
-    group_info = User.get_group_info(session[:user_id], session[:group_id])
+    group_info = User.get_group_info(current_user.id, current_user.group_id)
     respond_to do |format|
       format.json { render json: group_info }
     end
