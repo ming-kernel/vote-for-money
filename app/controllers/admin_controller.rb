@@ -23,10 +23,13 @@ class AdminController < ApplicationController
 
   def show_users
     users = User.all.select {|u| u.name != 'admin'}
-    users = users.sort_by {|u| u.group_id}
+    assigned_users = users.select {|u| u.group_id != nil }
+    other_users = users.select {|u| u.group_id == nil }
+    assigned_users.sort_by! {|u| u.group_id }
+
     respond_to do |format|
       format.json { 
-        render json: users
+        render json: assigned_users + other_users
       }
     end
   end

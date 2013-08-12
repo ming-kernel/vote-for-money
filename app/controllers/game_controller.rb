@@ -13,10 +13,16 @@ class GameController < ApplicationController
   end
 
   def get_group_info
+    if current_user
+      group_info = User.get_group_info(current_user.id, current_user.group_id)
+      respond_to do |format|
+        format.json { render json: group_info }
+      end
 
-    group_info = User.get_group_info(current_user.id, current_user.group_id)
-    respond_to do |format|
-      format.json { render json: group_info }
+    else
+      respond_to do |format|
+        format.json { render json: nil }
+      end
     end
 
   end

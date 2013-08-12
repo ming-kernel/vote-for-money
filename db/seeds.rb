@@ -15,7 +15,7 @@ User.create(name: 'admin',
 Admin.delete_all()
 Admin.create(stop: false)
 
-9.times do |i|
+10.times do |i|
   User.create(name: "robot_#{i + 1}", 
               password: '123',
               password_confirmation: '123',
