@@ -139,24 +139,24 @@ $(function() {
         if ($.vote_group_data.last_round_decision) {
             
             if ($.vote_group_data.users[0].user_id === $.vote_group_data.last_round_decision.from)
-                $('#statistics tbody tr')[1].children[1].textContent = $.vote_group_data.last_round_decision.money_a - $.vote_group_data.last_round_decision.penalty_from;
+                $('#statistics tbody tr')[1].children[1].textContent = $.vote_group_data.last_round_decision.money_a - $.vote_group_data.last_round_decision.submiter_penalty;
             else if ($.vote_group_data.users[0].user_id === $.vote_group_data.last_round_decision.to)
-                $('#statistics tbody tr')[1].children[1].textContent = $.vote_group_data.last_round_decision.money_a - $.vote_group_data.last_round_decision.penalty_to;
+                $('#statistics tbody tr')[1].children[1].textContent = $.vote_group_data.last_round_decision.money_a - $.vote_group_data.last_round_decision.accepter_penalty;
             else
                 $('#statistics tbody tr')[1].children[1].textContent = $.vote_group_data.last_round_decision.money_a;
 
 
             if ($.vote_group_data.users[1].user_id === $.vote_group_data.last_round_decision.from)
-                $('#statistics tbody tr')[1].children[2].textContent = $.vote_group_data.last_round_decision.money_b - $.vote_group_data.last_round_decision.penalty_from;
-            else if ($.vote_group_data.users[0].user_id === $.vote_group_data.last_round_decision.to)
-                $('#statistics tbody tr')[1].children[2].textContent = $.vote_group_data.last_round_decision.money_b - $.vote_group_data.last_round_decision.penalty_to;
+                $('#statistics tbody tr')[1].children[2].textContent = $.vote_group_data.last_round_decision.money_b - $.vote_group_data.last_round_decision.submiter_penalty;
+            else if ($.vote_group_data.users[1].user_id === $.vote_group_data.last_round_decision.to)
+                $('#statistics tbody tr')[1].children[2].textContent = $.vote_group_data.last_round_decision.money_b - $.vote_group_data.last_round_decision.accepter_penalty;
             else
                 $('#statistics tbody tr')[1].children[2].textContent = $.vote_group_data.last_round_decision.money_b;
 
             if ($.vote_group_data.users[2].user_id === $.vote_group_data.last_round_decision.from)
-                $('#statistics tbody tr')[1].children[3].textContent = $.vote_group_data.last_round_decision.money_c - $.vote_group_data.last_round_decision.penalty_from;
-            else if ($.vote_group_data.users[0].user_id === $.vote_group_data.last_round_decision.to)
-                $('#statistics tbody tr')[1].children[3].textContent = $.vote_group_data.last_round_decision.money_c - $.vote_group_data.last_round_decision.penalty_to;
+                $('#statistics tbody tr')[1].children[3].textContent = $.vote_group_data.last_round_decision.money_c - $.vote_group_data.last_round_decision.submiter_penalty;
+            else if ($.vote_group_data.users[2].user_id === $.vote_group_data.last_round_decision.to)
+                $('#statistics tbody tr')[1].children[3].textContent = $.vote_group_data.last_round_decision.money_c - $.vote_group_data.last_round_decision.accepter_penalty;
             else
                 $('#statistics tbody tr')[1].children[3].textContent = $.vote_group_data.last_round_decision.money_c;
         }

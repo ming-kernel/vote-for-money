@@ -1,7 +1,7 @@
 class Proposal < ActiveRecord::Base
   attr_accessible :group_id, :from, :to, :round_id,
                   :money_a, :money_b, :money_c,
-                  :penalty_from, :penalty_to
+                  :submiter_penalty, :accepter_penalty
 
   validates :group_id, :from, :to, :round_id, :money_a, :money_b, :money_c, presence: true
 
@@ -64,8 +64,8 @@ class Proposal < ActiveRecord::Base
       p = Proposal.new(params)
       p.accept = false
       p.round_id = round_id
-      p.penalty_from = 0
-      p.penalty_to = 0
+      p.submiter_penalty = 0
+      p.accepter_penalty = 0
       if p.save!
         p
       else
@@ -93,9 +93,9 @@ class Proposal < ActiveRecord::Base
         group.save!
         
         # update user's earning points
-        from_penalty, to_penalty = group.update_users_from_group(params[:from], params[:to], round_id, [p.money_a, p.money_b, p.money_c])
-        p.penalty_from = from_penalty
-        p.penalty_to = to_penalty
+        submiter_penalty, accepter_penalty = group.update_users_from_group(params[:from], params[:to], round_id, [p.money_a, p.money_b, p.money_c])
+        p.submiter_penalty = submiter_penalty
+        p.accepter_penalty = accepter_penalty
         p.save!
       else
         nil
