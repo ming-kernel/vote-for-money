@@ -57,10 +57,14 @@ class AdminController < ApplicationController
     # 2) randomly pick out goups which is not full, if any
     users = User.all.find_all {|u| u.group_id == nil and u.name != 'admin'}
     users.shuffle!
+    groups = []
     while users.length >= 3 do
       group_users = users.slice!(0, 3)
-      assign_users_to_new_group(group_users)
+      g = assign_users_to_new_group(group_users)
+      groups << g
     end
+
+    # assign_penalty_to_groups(groups)
 
     if users.length  == 0
       notice_msg = 'all users are ready'
@@ -93,12 +97,22 @@ private
     group.users_number = 3
     group.round_id = 0
     group.betray_penalty = [0, 10, 20].shuffle![0]
+    # group.betray_penalty = 0
     group.save!
 
     group_users.each do |u|
       u.round_id = 0
       u.group_id = group.id
       u.save!
+    end
+    group
+  end
+
+  def assign_penalty_to_groups(groups)
+    penaltys = [0, 10, 20]
+    penaltys.shuffle!
+    groups.each_with_index do |g, index|
+      g.betray_penalty = penaltys[index % 3]
     end
   end
 
