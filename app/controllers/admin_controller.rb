@@ -71,7 +71,7 @@ class AdminController < ApplicationController
     User.delete_all("name != 'admin'")
     Group.delete_all()
     Proposal.delete_all()
-    Admin.delete_all()
+    # Admin.delete_all()
     redirect_to admin_url, :notice => 'All users, groups and proposals deleted'
   end
 
