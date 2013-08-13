@@ -64,14 +64,19 @@ class AdminController < ApplicationController
       groups << g
     end
 
-    # assign_penalty_to_groups(groups)
-
     if users.length  == 0
       notice_msg = 'all users are ready'
     else
       notice_msg = "#{users.length} users not assigned to any group"
     end
     redirect_to admin_url, :notice => notice_msg
+  end
+
+  def assign_penalty
+    groups = Group.all
+
+    assign_penalty_to_groups(groups)
+    redirect_to admin_url, :notice => "You can press agian if you want another penalty"
   end
 
   def delete_users
@@ -113,6 +118,7 @@ private
     penaltys.shuffle!
     groups.each_with_index do |g, index|
       g.betray_penalty = penaltys[index % 3]
+      g.save!
     end
   end
 

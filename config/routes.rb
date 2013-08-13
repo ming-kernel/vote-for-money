@@ -11,6 +11,7 @@ Vote::Application.routes.draw do
   get 'admin/show_groups' => 'admin#show_groups'
   get 'admin/show_proposals' => 'admin#show_proposals'
   get "admin/assign_users" => 'admin#assign_users'
+  get "admin/assign_penalty" => 'admin#assign_penalty'
   get "admin/delete_users" => 'admin#delete_users'
   get "admin/stop_game" => 'admin#stop_game'
   get "admin/resume_game" => 'admin#resume_game'
