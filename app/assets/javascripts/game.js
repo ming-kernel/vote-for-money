@@ -192,6 +192,11 @@ $(function() {
                 e.textContent = $.vote_group_data.users[i].user_name;
         });
 
+        $elem.find('th').slice(5).each(function (i, e) {
+            if ($.vote_group_data.users[i] && $.vote_group_data.users[i].user_name)
+                e.textContent = $.vote_group_data.users[i].user_name;
+        });        
+
     };
 
 
@@ -203,7 +208,6 @@ $(function() {
             $td[1].textContent = opponent.proposal.money_a;
             $td[2].textContent = opponent.proposal.money_b;
             $td[3].textContent = opponent.proposal.money_c;
-            // $td.effect("highlight", {}, 3000);
         }
     };
 
@@ -252,7 +256,7 @@ $(function() {
             $('#next-round #ok').click(function() {
                 console.log("ok clicked");
                 update_round_id();
-                $('#next-round p').text('Wating for others to confirm');                
+                // $('#next-round p').text('Wating for others to confirm');                
             });
             
         } else {
@@ -277,14 +281,15 @@ $(function() {
             $('#next-round #ok').click(function() {
                 console.log("ok clicked");
                 update_round_id();
-                $('#next-round p').text('Wating for others to confirm');
+                // $('#next-round p').text('Wating for others to confirm');
                
             });
 
         }
-
+        reset_group_data();
         clear_my_proposal();
-        
+        clear_opponent_proposal();
+        // system_update_sync();        
     }
 
     var update_model = function () {
@@ -296,7 +301,7 @@ $(function() {
             draw_proposal_on_opponent($('#left_opponent'), left_opponent);
 
             if (left_opponent.proposal && $.vote_group_data.opponents[0].last_proposal_id != left_opponent.proposal.id) {
-                $('#left_opponent').find('td').effect("highlight", {}, 3000);
+                $('#left_opponent #opponent').find('td').effect("highlight", {}, 3000);
                 // alert(left_opponent.proposal.id + " " + $.vote_group_data.opponents[0].last_proposal_id);
                 $.vote_group_data.opponents[0].last_proposal_id = left_opponent.proposal.id;
 
@@ -311,24 +316,24 @@ $(function() {
             draw_proposal_on_opponent($('#right_opponent'), right_opponent);
 
             if (right_opponent.proposal && $.vote_group_data.opponents[1].last_proposal_id != right_opponent.proposal.id) {
-                $('#right_opponent').find('td').effect("highlight", {}, 3000);
+                $('#right_opponent #opponent').find('td').effect("highlight", {}, 3000);
                 $.vote_group_data.opponents[1].last_proposal_id = right_opponent.proposal.id;
-            }            
+            }           
         }
 
         $('#round-penalty').text("Current round is " + $.vote_group_data.self.round_id + "; Group betray penalty is " + $.vote_group_data.betray_penalty);
         draw_global_statis();
 
         if ($.vote_group_data.round_decision) {
-            // alert("An agreement has been made, let's start next round");
             confirm_and_wait_next_round(null);
-            reset_group_data();
         }
     };
 
     var accept_left_proposal = function() {
 
         var opponent = $.vote_group_data.opponents[0];
+        if (opponent.proposal === null )
+            return;
 
         $.ajax({
             url: 'proposals/accept.json',
@@ -343,7 +348,7 @@ $(function() {
                 if (d) {
                     console.log("accept left opponnent");
                     confirm_and_wait_next_round($.vote_group_data.opponents[0]);
-                    clear_opponent_proposal();  
+                    
                 }
                 
             }
@@ -353,6 +358,8 @@ $(function() {
     };
     var accept_right_proposal = function() {
         var opponent = $.vote_group_data.opponents[1];
+        if (opponent.proposal === null)
+            return;
 
         $.ajax({
             url: 'proposals/accept.json',
@@ -365,8 +372,7 @@ $(function() {
             success: function(d) {
                 if (d) {
                     console.log("accept right opponent");
-                    confirm_and_wait_next_round($.vote_group_data.opponents[1]);
-                    clear_opponent_proposal();    
+                    confirm_and_wait_next_round($.vote_group_data.opponents[1]);   
                 }
                 
             }
@@ -412,13 +418,13 @@ $(function() {
                 type: 'POST',
                 data: proposal,
                 success: function(d) {
-                    // alert('proposal submited');
-                    // console.log(d);
                     console.log("submited left proposal");
-                    // $money.each(function(i, e) {
-                    //     e.value = '';
-                    // });
-
+                    var $td = $('#left_opponent #me').find('td');
+                    $td[1].textContent = moneys[0];
+                    $td[2].textContent = moneys[1];
+                    $td[3].textContent = moneys[2];
+                    // console.log("moneys", moneys);
+                    $td.effect("highlight", {}, 3000);
                 }
             });
 
@@ -463,9 +469,12 @@ $(function() {
                 success: function(d) {
                     // alert('proposal submited');
                     console.log("submitted right proposal");
-                    // $money.each(function(i, e) {
-                    //     e.value = '';
-                    // });
+                    var $td = $('#right_opponent #me').find('td');
+                    $td[1].textContent = moneys[0];
+                    $td[2].textContent = moneys[1];
+                    $td[3].textContent = moneys[2];
+                    // console.log("moneys", moneys);
+                    $td.effect("highlight", {}, 3000);
 
                 }
             });
@@ -518,6 +527,23 @@ $(function() {
         init_model();
     });
 
+    var system_update_sync = function() {
+
+        var response = $.ajax({
+                    url: 'game/get-group-info.json',
+                    type: 'GET',
+                    data: 'hi',
+                    async: false
+                }).responseText;
+
+        var group_info = $.parseJSON(response);
+        parse_group(group_info);
+        parse_self(group_info);
+        parse_opponent(group_info);
+        parse_decision(group_info);
+        update_model();
+    };
+
     var system_update = function() {
         
         $.getJSON('game/get-group-info.json', function(group_info) {
@@ -543,24 +569,7 @@ $(function() {
             update_model();
 
         });
-        
-        // $.ajax({
-        //     url: 'game/get-group-info.json',
-        //     type: 'GET',
-        //     data: 'hi',
-        //     success: function(group_info) {
-        //         console.log(group_info);
-        //         if (group_info.stop === true)
-        //             stop_game();
-        //         }
-
-        //         parse_group(group_info);
-        //         parse_self(group_info);
-        //         parse_opponent(group_info);
-        //         parse_decision(group_info);
-        //         update_model();
-        //     }
-        // });        
+           
     }
 
     window.setInterval(system_update, 2000);

@@ -1,5 +1,5 @@
 <div class='text-center lead'>
-  <span id="opponent_name"></span>'s latest proposal to me<span id="status"></span>
+  <strong><span id="opponent_name"></span>'s proposal to me<span id="status"></span></strong>
 </div>
 
 <hr/>
@@ -39,8 +39,34 @@
 </div>
 
 <hr/>
-<p class="text-center lead">My proposal to <span id="opponent_name"></span></p>
-<form class="form-inline">
+<div class="text-center lead">
+  <strong>My proposal to <span id="opponent_name"></span></strong>
+</div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Make</th>
+    <th>Model</th>
+    <th>Year</th>
+  </tr>
+  </thead>
+
+  <tbody id="me">
+    <tr>
+      <td>
+        Proposal
+      </td>
+      <td id="first"></td>
+      <td id="second"></td>
+      <td id="third"></td>
+    </tr>
+  </tbody>
+
+</table>
+
+<form class="form-inline table">
     <div class="row-fluid">
       <div class="span4">
         <label for="first"></label>
