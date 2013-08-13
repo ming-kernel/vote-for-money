@@ -1,7 +1,7 @@
 class Proposal < ActiveRecord::Base
   attr_accessible :group_id, :from, :to, :round_id,
                   :money_a, :money_b, :money_c,
-                  :submiter_penalty, :accepter_penalty
+                  :submiter_penalty, :accepter_penalty, :accept
 
   validates :group_id, :from, :to, :round_id, :money_a, :money_b, :money_c, presence: true
 
