@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130812165630) do
+ActiveRecord::Schema.define(:version => 20130814111528) do
 
   create_table "admins", :force => true do |t|
     t.boolean  "stop"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20130812165630) do
     t.integer  "round_id"
     t.string   "auth_token"
     t.integer  "earnings"
+    t.string   "plain_password"
   end
 
 end

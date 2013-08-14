@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   belongs_to :group
   attr_accessible :name, :password, :password_confirmation, :round_id, :last_active, :earnings
-
+  attr_accessible :plain_password
+  
   validates_presence_of :password, :on => :create
   validates_presence_of :password_confirmation, :on => :create
   validates_presence_of :name, :on => :create

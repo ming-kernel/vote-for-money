@@ -16,6 +16,7 @@ Vote::Application.routes.draw do
     
 
   resources :users
+  get "users/delete/:id" => 'users#delete'
 
   controller :session do
     get 'login' => :new

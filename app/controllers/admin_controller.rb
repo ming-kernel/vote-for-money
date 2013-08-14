@@ -60,7 +60,7 @@ class AdminController < ApplicationController
     groups = []
     while users.length >= 3 do
       group_users = users.slice!(0, 3)
-      g = assign_users_to_new_group(group_users)
+      g = assign_users_to_group(group_users)
       groups << g
     end
 
@@ -90,14 +90,9 @@ class AdminController < ApplicationController
 
 private
 
-  def require_admin
-    unless current_user and current_user.name == 'admin'
-      redirect_to login_url, :notice => 'You should logged in as admin'
-    end
-  end
   # group_users should be a three element array
   # each user should have a group_id = nil
-  def assign_users_to_new_group(group_users)
+  def assign_users_to_group(group_users)
     group = Group.new
     group.users_number = 3
     group.round_id = 0
@@ -120,11 +115,6 @@ private
       g.betray_penalty = penaltys[index % 3]
       g.save!
     end
-  end
-
-
-  def assign_user_to_group
-
   end
 
 end

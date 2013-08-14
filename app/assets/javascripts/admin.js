@@ -1,29 +1,5 @@
 $(function() {
 
-//   <table>
-//     <thead>
-//         <tr>
-//             <th>#</th>
-//             <th>First Name</th>
-//             <th>Last Name</th>
-//             <th>Language</th>
-//         </tr>
-//     </thead>
-//     <tbody>
-//         <tr>
-//             <td>1</td>
-//             <td>Some</td>
-//             <td>One</td>
-//             <td>English</td>
-//         </tr>
-//         <tr>
-//             <td>2</td>
-//             <td>Joe</td>
-//             <td>Sixpack</td>
-//             <td>English</td>
-//         </tr>
-//     </tbody>
-// </table>
   String.format = function() {
     var s = arguments[0];
     for (var i = 0; i < arguments.length - 1; i++) {       
@@ -42,15 +18,21 @@ $(function() {
 
   
   var draw_users = function(users) {
-    var head = "<tr><th>#</th><th>Name</th><th>Group id</th></tr>";
+    var head = "<tr><th>#</th><th>Name</th><th>Group id</th><th>Password</th></tr>";
     clear_draw_data();
     $('#users').addClass('active');
     $('#draw-head').append(head);
     var body = "";
     
     for (var i = 0; i < users.length; i++) {
-      body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>", 
-                                  i + 1, users[i].name, users[i].group_id);
+      var delete_url = String.format("<a href='/users/delete/{0}'class='btn btn-danger'>Delete</a>", users[i].id)
+      if (users[i].plain_password) 
+        body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", 
+                                    delete_url, users[i].name, users[i].group_id, users[i].plain_password);
+      else
+        body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", 
+                                    delete_url, users[i].name, users[i].group_id, 'X');
+
     }
     $('#draw-body').append(body);
 

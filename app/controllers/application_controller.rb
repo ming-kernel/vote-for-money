@@ -6,6 +6,12 @@ class ApplicationController < ActionController::Base
   def set_auth_token(user)
     cookies[:auth_token] = user.auth_token
   end
+  
+  def require_admin
+    unless current_user and current_user.name == 'admin'
+      redirect_to login_url, :notice => 'You should logged in as admin'
+    end
+  end
 
   protected
     def set_i18n_locale_from_parms
