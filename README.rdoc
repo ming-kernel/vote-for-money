@@ -1,1 +1,1 @@
-http://vote-for-money.herokuapp.com/
+http://vote-for-money.herokuapp.com
