@@ -45,6 +45,10 @@ class AdminController < ApplicationController
 
   def show_proposals
     proposals = Proposal.all
+    proposals.each do |p|
+      p['users'] = p.group.users.sort_by { |x| x.id }
+    end
+
     respond_to do |format|
       format.json { 
         render json: proposals

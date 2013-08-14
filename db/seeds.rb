@@ -32,7 +32,7 @@ def generate_random_password()
   p
 end
 
-99.times do |i|
+300.times do |i|
   p = generate_random_password
   User.create(name: "player#{i + 1}", 
               plain_password: p,

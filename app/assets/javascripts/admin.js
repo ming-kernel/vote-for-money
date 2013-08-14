@@ -40,13 +40,15 @@ $(function() {
   };
 
   var draw_groups = function(groups) {
-    var head = "<tr><th>#</th><th>Group id</th><th>Number of Users</th><th>Round id</th><th>Betray Penalty</th></tr>";
+    var head = "<tr><th>#</th><th>Group id</th><th>Number of Users</th><th>Round id</th><th>Betray Penalty</th></tr>"; 
     clear_draw_data();
     $('#groups').addClass('active');
-    $('#draw-head').append(head);
+    
     var body = "";
+    $('#draw-head').append(head);
 
     for (var i = 0; i < groups.length; i++) {
+
       body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", 
                                   i + 1, groups[i].id, groups[i].users_number, groups[i].round_id, groups[i].betray_penalty);
     }
@@ -54,20 +56,46 @@ $(function() {
   };
 
   var draw_proposals = function(proposals) {
-    var head = "<tr><th>Proposal id</th><th>Submited from</th><th>Submited to</th><th>Round id</th><th>Accepted?</th><th>Submit time</th><th>Accept time</th></tr>";
+    var head = "<tr><th>Proposal id</th><th>Submited from</th><th>Submited to</th><th>Round id</th><th>Money info</th><th>Penalty info</th><th>Accepted?</th><th>Submit time</th><th>Accept time</th></tr>";
     clear_draw_data();
     $('#proposals').addClass('active');    
     $('#draw-head').append(head);
 
     var body = "";
+    var from_name = '';
+    var to_name = '';
+    var money_info = '';
+    var penalty_info = '';
 
     for (var i = 0; i < proposals.length; i++) {
+      var p = proposals[i];
+      var users = proposals[i].users;
+      
+      for (var j = 0; j < users.length; j++) {
+        if (users[j].id === p.from) {
+          from_name = users[j].name;
+          break;
+        }
+      }
+
+      for (var j = 0; j < users.length; j++) {
+        if (users[j].id === p.to) {
+          to_name = users[j].name;
+          break;
+        }
+      }
+
+      money_info = String.format("{0}: {1}  {2}: {3}  {4}: {5}", 
+                                  users[0].name, p.money_a, users[1].name, p.money_b, users[2].name, p.money_c);
+      penalty_info = String.format("{0}: {1}  {2}: {3}",
+                                   from_name, p.submiter_penalty, to_name, p.accepter_penalty);
+
       if (proposals[i].accept === true)
-        body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>",
-                                    proposals[i].id, proposals[i].from, proposals[i].to, proposals[i].round_id, "YES", proposals[i].created_at, proposals[i].updated_at);
+        body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>",
+                                    p.id, from_name, to_name, p.round_id, money_info, penalty_info, "YES", p.created_at, p.updated_at);
       else
-        body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>",
-                                    proposals[i].id, proposals[i].from, proposals[i].to, proposals[i].round_id, "NO", proposals[i].created_at, "X");
+        body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>",
+                                    p.id, from_name, to_name, p.round_id, money_info, penalty_info, "NO", p.created_at, "X");
     }
 
     $('#draw-body').append(body);
@@ -78,10 +106,10 @@ $(function() {
   var init_users = function($elem) {
     $elem.click(function() {
       $.ajax({
-        url: 'admin/show_users.json',
+        url: '/admin/show_users.json',
         type: 'GET',
         success: function(users) {
-          console.log(users);
+          // console.log(users);
           draw_users(users);
         }
       });
@@ -93,7 +121,7 @@ $(function() {
     $elem.click(function() {
 
       $.ajax({
-        url: 'admin/show_groups.json',
+        url: '/admin/show_groups.json',
         type: 'GET',
         success: function(groups) {
           console.log(groups);
@@ -108,7 +136,7 @@ $(function() {
   var init_proposals = function($elem) {
     $elem.click(function() {
       $.ajax({
-        url: 'admin/show_proposals.json',
+        url: '/admin/show_proposals.json',
         type: 'GET',
         success: function(proposals) {
           console.log(proposals);

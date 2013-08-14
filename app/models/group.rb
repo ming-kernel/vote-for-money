@@ -1,7 +1,9 @@
 class Group < ActiveRecord::Base
   has_many :users
+  has_many :proposals
+  
   attr_accessible :users_number, :round_id, :betray_penalty
-
+  attr_writer :users, :proposals
   validates :users_number, :round_id, :presence => true
   validates :users_number, :numericality => {:less_than_or_equal_to => 3,
                                             :greater_than => 0}
