@@ -1,5 +1,5 @@
 <div class='text-center lead'>
-  <strong><span id="opponent_name"></span>'s proposal to me<span id="status"></span></strong>
+  <strong><span id="opponent_name"></span><%= t('.others_title')%><span id="status"></span></strong>
 </div>
 
 <hr/>
@@ -17,7 +17,7 @@
   <tbody id="opponent">
     <tr>
       <td>
-        Proposal
+        <%= t('.proposal') %>
       </td>
       <td id="first"></td>
       <td id="second"></td>
@@ -32,7 +32,7 @@
 <div class="row-fluid">
   <div class="span6 offset3">
     <button class="btn btn-success btn-block" type="submit" id="accept">
-      Accept
+      <%= t('.accept') %>
     </button>
   </div>
   
@@ -40,7 +40,7 @@
 
 <hr/>
 <div class="text-center lead">
-  <strong>My proposal to <span id="opponent_name"></span></strong>
+  <strong><%= t('.my_title') %><span id="opponent_name"></span><%= t('.cn-s')%></strong>
 </div>
 
 <table class="table">
@@ -56,7 +56,7 @@
   <tbody id="me">
     <tr>
       <td>
-        Proposal
+        <%= t('.proposal') %>
       </td>
       <td id="first"></td>
       <td id="second"></td>
@@ -87,7 +87,7 @@
     <hr/>
     <div class="row-fluid">
       <div class="span6 offset3">
-        <button type="submit" class="btn btn-success btn-block">Submit</button>
+        <button type="submit" class="btn btn-success btn-block"><%= t('.submit')%></button>
       </div>
     </div>
 </form>

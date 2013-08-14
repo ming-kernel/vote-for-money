@@ -34,7 +34,7 @@ $(function() {
 
     var update_round_id = function() {
         $.ajax({
-            url: 'users/next-round.json',
+            url: '/users/next-round.json',
             type: 'POST',
             data: {
                 'user_id': $.vote_group_data.self.user_id
@@ -321,7 +321,8 @@ $(function() {
             }           
         }
 
-        $('#round-penalty').text("Current round is " + $.vote_group_data.self.round_id + "; Group betray penalty is " + $.vote_group_data.betray_penalty);
+        $('#basic-group-info #round-id').text($.vote_group_data.self.round_id);
+        $('#basic-group-info #round-penlaty').text($.vote_group_data.betray_penalty);
         draw_global_statis();
 
         if ($.vote_group_data.round_decision) {
@@ -336,7 +337,7 @@ $(function() {
             return;
 
         $.ajax({
-            url: 'proposals/accept.json',
+            url: '/proposals/accept.json',
             type: 'POST',
             data: {
                 'proposal_id': opponent.proposal.id,
@@ -362,7 +363,7 @@ $(function() {
             return;
 
         $.ajax({
-            url: 'proposals/accept.json',
+            url: '/proposals/accept.json',
             type: 'POST',
             data: {
                 'proposal_id': opponent.proposal.id,
@@ -414,7 +415,7 @@ $(function() {
                            };
 
             $.ajax({
-                url: 'proposals/create.json',
+                url: '/proposals/create.json',
                 type: 'POST',
                 data: proposal,
                 success: function(d) {
@@ -463,7 +464,7 @@ $(function() {
                            };
 
             $.ajax({
-                url: 'proposals/create.json',
+                url: '/proposals/create.json',
                 type: 'POST',
                 data: proposal,
                 success: function(d) {
@@ -508,7 +509,7 @@ $(function() {
     };
 
     // init myself
-    $.getJSON('game/get-group-info.json', function(group_info) {
+    $.getJSON('/game/get-group-info.json', function(group_info) {
         if (!group_info) {
             alert("Please wait for Administrator to assgin you a group");
             return;    
@@ -530,7 +531,7 @@ $(function() {
     var system_update_sync = function() {
 
         var response = $.ajax({
-                    url: 'game/get-group-info.json',
+                    url: '/game/get-group-info.json',
                     type: 'GET',
                     data: 'hi',
                     async: false
@@ -546,7 +547,7 @@ $(function() {
 
     var system_update = function() {
         
-        $.getJSON('game/get-group-info.json', function(group_info) {
+        $.getJSON('/game/get-group-info.json', function(group_info) {
             if (!group_info)
                 return;
 

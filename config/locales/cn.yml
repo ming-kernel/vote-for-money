@@ -1,0 +1,31 @@
+cn:
+  layouts:
+    header:
+      home: "首页"
+      signin: "登陆"
+      signout: "退出"
+      signup: "注册"
+
+  home:
+    index:
+      start: "开始"
+
+  game:
+    index:
+      total_earnings: "总积分"
+      last_earnings: "上次积分"
+      round_before: "第 "
+      round_after: " 轮； "
+      round_penalty: " 背叛成本 "
+
+    opponent:
+      others_title: " 给我的提案"
+      my_title: "我对 "
+      proposal: "提案"
+      accept: "接受"
+      submit: "提交"
+      cn-s: "的提案"
+
+  session:
+    new:
+      username: "用户名"

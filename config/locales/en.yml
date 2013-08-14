@@ -2,4 +2,29 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  layouts:
+    header:
+      home: "Home"
+      signin: "Sign in"
+      signout: "Sign out"
+      signup: "Sign up"
+
+  home:
+    index:
+      start: "Start Game"
+
+  game:
+    index:
+      total_earnings: "Total Earnings"
+      last_earnings: "Last Earnings"
+      round_before: "Current Round: "
+      round_after: "    "
+      round_penalty: " Betray Penalty "
+
+    opponent:
+      others_title: "'s proposal to me"
+      my_title: "My proposal to "
+      cn-s: ""
+      proposal: "Proposal"
+      accept: "Accept"
+      submit: "Submit"

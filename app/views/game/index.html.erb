@@ -1,5 +1,8 @@
 <div class="row-fluid">
-  <p id="round-penalty" class="text-info text-center"></p>
+  <p id="basic-group-info" class="text-info text-center">
+    <%= t('.round_before')%><span id="round-id"></span><%= t('.round_after')%>
+    <%= t('.round_penalty')%><span id="round-penlaty"></span>
+  </p>
 </div>
 
 <div class="row-fluid">
@@ -14,13 +17,13 @@
     </thead>
     <tbody>
       <tr>
-        <td>Total earnings</td>
+        <td><%= t('.total_earnings')%></td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
       </tr>
       <tr>
-        <td>Last earnings</td>
+        <td><%= t('.last_earnings')%></td>
         <td>0</td>
         <td>0</td>
         <td>0</td>
