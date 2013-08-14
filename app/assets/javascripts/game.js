@@ -320,7 +320,7 @@ $(function() {
                 $.vote_group_data.opponents[1].last_proposal_id = right_opponent.proposal.id;
             }           
         }
-
+        $('#basic-group-info #my-name').text($.vote_group_data.self.user_name);
         $('#basic-group-info #round-id').text($.vote_group_data.self.round_id);
         $('#basic-group-info #round-penlaty').text($.vote_group_data.betray_penalty);
         draw_global_statis();
