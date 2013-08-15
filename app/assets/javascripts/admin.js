@@ -18,7 +18,7 @@ $(function() {
 
   
   var draw_users = function(users) {
-    var head = "<tr><th>#</th><th>Name</th><th>Group id</th><th>Password</th></tr>";
+    var head = "<tr><th>#</th><th>Name</th><th>Group id</th><th>Password</th><th>Online?</th></tr>";
     clear_draw_data();
     $('#users').addClass('active');
     $('#draw-head').append(head);
@@ -27,8 +27,13 @@ $(function() {
     for (var i = 0; i < users.length; i++) {
       var delete_url = String.format("<a href='/users/delete/{0}'class='btn btn-danger'>Delete</a>", users[i].id)
       if (users[i].plain_password) 
-        body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", 
-                                    delete_url, users[i].name, users[i].group_id, users[i].plain_password);
+        if (users[i].online)
+          body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", 
+                                    delete_url, users[i].name, users[i].group_id, users[i].plain_password, "YES");
+        else
+          body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", 
+                                    delete_url, users[i].name, users[i].group_id, users[i].plain_password, "NO");
+          
       else
         body = body + String.format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", 
                                     delete_url, users[i].name, users[i].group_id, 'X');

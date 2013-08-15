@@ -32,6 +32,20 @@ $(function() {
         'last_round_decision': null
     };
 
+    var is_english = function() {
+        if (document.URL.indexOf('en') != -1)
+            return true;
+        else
+            return false;
+    };
+
+    var is_chinese = function() {
+        if (document.URL.indexOf('cn') != -1)
+            return true;
+        else
+            return false;
+    };
+
     var update_round_id = function() {
         $.ajax({
             url: '/users/next-round.json',
@@ -270,7 +284,10 @@ $(function() {
                 $('#next-round #first').text($.vote_group_data.opponents[1].user_name);
 
             if (proposal.to === $.vote_group_data.self.user_id)
-                $('#next-round #second').text("You");
+                if (is_english())
+                    $('#next-round #second').text("You");
+                else
+                    $('#next-round #second').text("你");
             else if (proposal.to === $.vote_group_data.opponents[0].user_id)
                 $('#next-round #second').text($.vote_group_data.opponents[0].user_name);
             else if (proposal.to === $.vote_group_data.opponents[1].user_id)
@@ -401,7 +418,11 @@ $(function() {
             });
 
             if (!money_is_valid(moneys)) {
-                alert("sum of money should be 100");
+                if (is_english())
+                    alert("sum of money should be 100");
+                else
+                    alert("总数相加必须为 100 ");
+                
                 return false;
             }
 
@@ -451,7 +472,11 @@ $(function() {
             });
 
             if (!money_is_valid(moneys)) {
-                alert("sum of money should be 100");
+                if (is_english())
+                    alert("sum of money should be 100");
+                else
+                    alert("总数相加必须为 100 ");
+
                 return false;
             }
             // console.log('submit right proposal');
@@ -511,7 +536,11 @@ $(function() {
     // init myself
     $.getJSON('/game/get-group-info.json', function(group_info) {
         if (!group_info) {
-            alert("Please wait for Administrator to assgin you a group");
+            if (is_english())
+                alert("Please wait for Administrator to assgin you a group");
+            else
+                alert("请稍等，管理员给您随机分组之后就可以开始游戏了");
+
             return;    
         }
             
@@ -561,7 +590,10 @@ $(function() {
                 $('#next-round').modal('hide');
 
             if ($.vote_group_data.round_id === null && group_info.round_id === 0)
-                alert("You can start game now!");
+                if (is_english())
+                    alert("You can start game now!");
+                else
+                    alert("您可以开始游戏了！");
 
             parse_group(group_info);
             parse_self(group_info);

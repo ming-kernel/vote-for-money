@@ -20,6 +20,11 @@ en:
       round_before: "Current Round: "
       round_after: "    "
       round_penalty: " Betray Penalty "
+      before_first: "A deal is reached between"
+      and: "and"
+      after_second: ""
+      press: "Press "
+      and_wait: " and wait others to confirm"
 
     opponent:
       others_title: "'s proposal to me"

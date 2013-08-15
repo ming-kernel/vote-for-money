@@ -53,6 +53,10 @@ class User < ActiveRecord::Base
   end
 
   def self.get_group_info(user_id, group_id)
+    if (user_id)
+      update_last_active(user_id)
+    end
+
     if !user_id || !group_id
       return nil
     end
@@ -64,7 +68,7 @@ class User < ActiveRecord::Base
       return nil
     end
 
-    update_last_active(user_id)
+    
     group = Group.find(group_id)
     users = group.users
     group_info = {}

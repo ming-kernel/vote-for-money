@@ -23,9 +23,18 @@ class AdminController < ApplicationController
 
   def show_users
     users = User.all.select {|u| u.name != 'admin'}
+    users.each do |u|
+      if u.user_is_active
+        u['online'] = true
+      else
+        u['online'] = false
+      end
+    end
     assigned_users = users.select {|u| u.group_id != nil }
+    assigned_users.sort_by! {|u| u.group_id}
+
     other_users = users.select {|u| u.group_id == nil }
-    assigned_users.sort_by! {|u| u.group_id }
+    other_users.sort_by! {|u| u.id }
 
     respond_to do |format|
       format.json { 
@@ -59,7 +68,7 @@ class AdminController < ApplicationController
   def assign_users
     # 1) randomly pick out users which has not been assigned to a group
     # 2) randomly pick out goups which is not full, if any
-    users = User.all.find_all {|u| u.group_id == nil and u.name != 'admin'}
+    users = User.all.find_all {|u| u.group_id == nil and u.user_is_active and u.name != 'admin'}
     users.shuffle!
     groups = []
     while users.length >= 3 do
