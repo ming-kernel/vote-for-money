@@ -93,6 +93,7 @@ class User < ActiveRecord::Base
         group_info['self']['user_id'] = u.id
         group_info['self']['earnings'] = u.earnings
         group_info['self']['round_id'] = u.round_id
+        group_info['self']['group_id'] = u.group_id
 
         if u.user_is_active
           group_info['self']['online'] = true
@@ -109,6 +110,7 @@ class User < ActiveRecord::Base
         group_info['opponents'][o_idx]['user_id'] = u.id
         group_info['opponents'][o_idx]['earnings'] = u.earnings
         group_info['opponents'][o_idx]['round_id'] = u.round_id
+        group_info['opponents'][o_idx]['group_id'] = u.group_id
 
         if u.user_is_active
           group_info['opponents'][o_idx]['online'] = true

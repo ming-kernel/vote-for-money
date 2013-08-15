@@ -9,12 +9,14 @@ $(function() {
         'self': {'user_name': null,
                  'user_id': null,
                  'earnings': null,
-                 'round_id': null
+                 'round_id': null,
+                 'group_id': null
                 },
         'opponents': [{'user_name': null,
                        'user_id': null,
                        'earnings': null,
                        'round_id': null,
+                       'group_id': null,
                        'online': false,
                        'proposal': null,
                        'last_proposal_id': null
@@ -23,6 +25,7 @@ $(function() {
                        'user_id': null,
                        'earnings': null,
                        'round_id': null,
+                       'group_id': null,
                        'online': false,
                        'proposal': null,
                        'last_proposal_id': null
@@ -78,18 +81,21 @@ $(function() {
         $.vote_group_data.users.push({'user_name': group_info['self']['user_name'],
                                       'user_id': group_info['self']['user_id'],
                                       'earnings': group_info['self']['earnings'],
-                                      'round_id': group_info['self']['round_id']});
+                                      'round_id': group_info['self']['round_id'],
+                                      'group_id': group_info['self']['group_id']});
         if (group_info['opponents'][0]['user_name']) {
             $.vote_group_data.users.push({'user_name': group_info['opponents'][0]['user_name'],
                                           'user_id': group_info['opponents'][0]['user_id'],
                                           'earnings': group_info['opponents'][0]['earnings'],
-                                          'round_id': group_info['opponents'][0]['round_id']});
+                                          'round_id': group_info['opponents'][0]['round_id'],
+                                           'group_id': group_info['opponents'][0]['group_id']});
         }
         if (group_info['opponents'][1]['user_name']) {
             $.vote_group_data.users.push({'user_name': group_info['opponents'][1]['user_name'],
                                           'user_id': group_info['opponents'][1]['user_id'],
                                           'earnings': group_info['opponents'][1]['earnings'],
-                                          'round_id': group_info['opponents'][1]['round_id']});
+                                          'round_id': group_info['opponents'][1]['round_id'],
+                                          'group_id': group_info['opponents'][1]['group_id']});
         }
 
         $.vote_group_data.users.sort(function(x, y) {return x.user_id - y.user_id;});
@@ -103,7 +109,8 @@ $(function() {
         $.vote_group_data.self.user_id = group_info['self']['user_id'];
         $.vote_group_data.self.user_name = group_info['self']['user_name'];
         $.vote_group_data.self.earnings = group_info['self']['earnings'];
-        $.vote_group_data.self.round_id = group_info['self']['round_id']
+        $.vote_group_data.self.round_id = group_info['self']['round_id'];
+        $.vote_group_data.self.group_id = group_info['self']['group_id'];
     };
 
     var parse_opponent = function (group_info) {
@@ -121,6 +128,7 @@ $(function() {
         $.vote_group_data.opponents[0].online = left_opponent.online;
         $.vote_group_data.opponents[0].earnings = left_opponent.earnings;
         $.vote_group_data.opponents[0].round_id = left_opponent.round_id;
+        $.vote_group_data.opponents[0].group_id = left_opponent.group_id;
         $.vote_group_data.opponents[0].proposal = left_opponent.proposal;
   
         $.vote_group_data.opponents[1].user_name = right_opponent.user_name;
@@ -128,6 +136,7 @@ $(function() {
         $.vote_group_data.opponents[1].online = right_opponent.online;
         $.vote_group_data.opponents[1].earnings = right_opponent.earnings;
         $.vote_group_data.opponents[1].round_id = right_opponent.round_id;
+        $.vote_group_data.opponents[0].group_id = right_opponent.round_id;
         $.vote_group_data.opponents[1].proposal = right_opponent.proposal;      
         // if (!$.vote_group_data.opponents[1].last_proposal_id)
         //     $.vote_group_data.opponents[1].last_proposal_id = right_opponent.proposal.id;
@@ -431,7 +440,8 @@ $(function() {
             var proposal = {'proposal': {
                                           'from': $.vote_group_data.self.user_id,
                                           'to': $.vote_group_data.opponents[0].user_id,
-                                          'moneys': moneys
+                                          'moneys': moneys,
+                                          'group_id': $.vote_group_data.self.group_id
                                         }
                            };
 
@@ -484,7 +494,8 @@ $(function() {
             var proposal = {'proposal': {
                                         'from': $.vote_group_data.self.user_id,
                                         'to': $.vote_group_data.opponents[1].user_id,
-                                        'moneys': moneys
+                                        'moneys': moneys,
+                                        'group_id': $.vote_group_data.self.group_id
                                         }
                            };
 
@@ -557,23 +568,6 @@ $(function() {
         init_model();
     });
 
-    var system_update_sync = function() {
-
-        var response = $.ajax({
-                    url: '/game/get-group-info.json',
-                    type: 'GET',
-                    data: 'hi',
-                    async: false
-                }).responseText;
-
-        var group_info = $.parseJSON(response);
-        parse_group(group_info);
-        parse_self(group_info);
-        parse_opponent(group_info);
-        parse_decision(group_info);
-        update_model();
-    };
-
     var system_update = function() {
         
         $.getJSON('/game/get-group-info.json', function(group_info) {
@@ -589,12 +583,21 @@ $(function() {
             if (round_id_synced())
                 $('#next-round').modal('hide');
 
-            if ($.vote_group_data.round_id === null && group_info.round_id === 0)
+            if ($.vote_group_data.round_id === null && group_info.round_id === 0) {
                 if (is_english())
                     alert("You can start game now!");
                 else
                     alert("您可以开始游戏了！");
 
+                console.log("system init");
+                parse_group(group_info);
+                parse_self(group_info);
+                parse_opponent(group_info);
+                parse_decision(group_info);
+                init_model();
+                return;       
+            }
+                
             parse_group(group_info);
             parse_self(group_info);
             parse_opponent(group_info);

@@ -13,12 +13,13 @@ class ProposalsController < ApplicationController
     money_a = proposal_json[:moneys][0].to_i
     money_b = proposal_json[:moneys][1].to_i
     money_c = proposal_json[:moneys][2].to_i
+    group_id = proposal_json[:group_id].to_i
     p = Proposal.submit_proposal(from: from_id,
                                 to: to_id,
                                 money_a: money_a,
                                 money_b: money_b,
                                 money_c: money_c,
-                                group_id: session[:group_id])
+                                group_id: group_id)
     # result may fail
 
     respond_to do |format|
