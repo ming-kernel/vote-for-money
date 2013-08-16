@@ -368,7 +368,8 @@ $(function() {
             data: {
                 'proposal_id': opponent.proposal.id,
                 'from': opponent.user_id,
-                'to':$.vote_group_data.self.user_id
+                'to': $.vote_group_data.self.user_id,
+                'group_id': $.vote_group_data.self.group_id
             },
             success: function(d) {
                 console.log(d);
@@ -394,7 +395,8 @@ $(function() {
             data: {
                 'proposal_id': opponent.proposal.id,
                 'from': opponent.user_id,
-                'to':$.vote_group_data.self.user_id
+                'to': $.vote_group_data.self.user_id,
+                'group_id': $.vote_group_data.self.group_id
             },
             success: function(d) {
                 if (d) {

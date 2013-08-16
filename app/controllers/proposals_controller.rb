@@ -33,9 +33,10 @@ class ProposalsController < ApplicationController
     proposal_id = params[:proposal_id].to_i
     from_id = params[:from].to_i
     to_id = params[:to].to_i
+    group_id = params[:group_id].to_i
 
     p = Proposal.accept_proposal(proposal_id: proposal_id,
-                                 group_id: session[:group_id],
+                                 group_id: group_id,
                                  from: from_id,
                                  to: to_id)
 
