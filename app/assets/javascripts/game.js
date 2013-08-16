@@ -432,7 +432,7 @@ $(function() {
                 if (is_english())
                     alert("sum of money should be 100");
                 else
-                    alert("总数相加必须为 100 ");
+                    alert("请输入整数，总数相加必须为 100 ");
                 
                 return false;
             }
@@ -487,7 +487,7 @@ $(function() {
                 if (is_english())
                     alert("sum of money should be 100");
                 else
-                    alert("总数相加必须为 100 ");
+                    alert("请输入整数，总数相加必须为 100 ");
 
                 return false;
             }
