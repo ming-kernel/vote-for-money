@@ -273,8 +273,22 @@ $(function() {
     var confirm_and_wait_next_round = function(opponent) {
         // actively accept a proposal
         if (opponent) {
-            $('#next-round #first').text("You");
-            $('#next-round #second').text(opponent.user_name);
+
+            if (proposal.from === $.vote_group_data.users[0].user_id)
+                $('#next-round #first').text($.vote_group_data.users[0].user_name);
+            else if (proposal.from === $.vote_group_data.users[1].user_id)
+                $('#next-round #first').text($.vote_group_data.users[1].user_name);
+            else if (proposal.from === $.vote_group_data.users[2].user_id)
+                $('#next-round #first').text($.vote_group_data.users[2].user_name);
+
+            if (proposal.to === $.vote_group_data.users[0].user_id)
+                $('#next-round #second').text($.vote_group_data.users[0].user_name);
+            else if (proposal.to === $.vote_group_data.users[1].user_id)
+                $('#next-round #second').text($.vote_group_data.users[1].user_name);
+            else if (proposal.to === $.vote_group_data.users[2].user_id)
+                $('#next-round #second').text($.vote_group_data.users[2].user_name);
+            
+
             $('#next-round').modal('show');
             $('#next-round #ok').click(function() {
                 console.log("ok clicked");
@@ -287,20 +301,39 @@ $(function() {
 
             var proposal = $.vote_group_data.round_decision;
             console.log(proposal);
-            if (proposal.from === $.vote_group_data.opponents[0].user_id)
-                $('#next-round #first').text($.vote_group_data.opponents[0].user_name);
-            else if (proposal.from === $.vote_group_data.opponents[1].user_id)
-                $('#next-round #first').text($.vote_group_data.opponents[1].user_name);
 
-            if (proposal.to === $.vote_group_data.self.user_id)
-                if (is_english())
-                    $('#next-round #second').text("You");
-                else
-                    $('#next-round #second').text("你");
-            else if (proposal.to === $.vote_group_data.opponents[0].user_id)
-                $('#next-round #second').text($.vote_group_data.opponents[0].user_name);
-            else if (proposal.to === $.vote_group_data.opponents[1].user_id)
-                $('#next-round #second').text($.vote_group_data.opponents[1].user_name);
+            if (proposal.from === $.vote_group_data.users[0].user_id)
+                $('#next-round #first').text($.vote_group_data.users[0].user_name);
+            else if (proposal.from === $.vote_group_data.users[1].user_id)
+                $('#next-round #first').text($.vote_group_data.users[1].user_name);
+            else if (proposal.from === $.vote_group_data.users[2].user_id)
+                $('#next-round #first').text($.vote_group_data.users[2].user_name);
+
+            if (proposal.to === $.vote_group_data.users[0].user_id)
+                $('#next-round #second').text($.vote_group_data.users[0].user_name);
+            else if (proposal.to === $.vote_group_data.users[1].user_id)
+                $('#next-round #second').text($.vote_group_data.users[1].user_name);
+            else if (proposal.to === $.vote_group_data.users[2].user_id)
+                $('#next-round #second').text($.vote_group_data.users[2].user_name);
+
+            // if (proposal.from === $.vote_group_data.opponents[0].user_id)
+            //     $('#next-round #first').text($.vote_group_data.opponents[0].user_name);
+            // else if (proposal.from === $.vote_group_data.opponents[1].user_id)
+            //     $('#next-round #first').text($.vote_group_data.opponents[1].user_name);
+
+            // if (proposal.to === $.vote_group_data.self.user_id) {
+            //     if (is_english())
+            //         $('#next-round #second').text("You");
+            //     else
+            //         $('#next-round #second').text("你");   
+            // }
+            // else if (proposal.to === $.vote_group_data.opponents[0].user_id) {
+            //     $('#next-round #second').text($.vote_group_data.opponents[0].user_name);
+            // }  
+            // else if (proposal.to === $.vote_group_data.opponents[1].user_id) {
+            //     $('#next-round #second').text($.vote_group_data.opponents[1].user_name);
+            // }
+                
 
             $('#next-round').modal('show');
 
