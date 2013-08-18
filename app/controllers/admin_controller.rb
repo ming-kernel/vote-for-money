@@ -111,12 +111,14 @@ private
     group.round_id = 0
     group.betray_penalty = [0, 10, 20].shuffle![0]
     # group.betray_penalty = 0
-    group.save!
+    if (!group.save)
+      puts "***** group save error *****"*100
 
     group_users.each do |u|
       u.round_id = 0
       u.group_id = group.id
-      u.save!
+      if (!u.save)
+        puts "**** user save error *****"*100
     end
     group
   end
