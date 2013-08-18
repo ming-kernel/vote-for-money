@@ -68,13 +68,15 @@ class AdminController < ApplicationController
   def assign_users
     # 1) randomly pick out users which has not been assigned to a group
     # 2) randomly pick out goups which is not full, if any
-    users = User.all.find_all {|u| u.group_id == nil and u.user_is_active and u.name != 'admin'}
+    users = User.all.find_all {|u| u.group_id == nil and u.name != 'admin' and u.user_is_active }
     users.shuffle!
     groups = []
     while users.length >= 3 do
       group_users = users.slice!(0, 3)
-      g = assign_users_to_group(group_users)
-      groups << g
+      if (group_users.length == 3)
+        g = assign_users_to_group(group_users)
+        groups << g
+      end
     end
 
     if users.length  == 0

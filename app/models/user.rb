@@ -52,6 +52,11 @@ class User < ActiveRecord::Base
     (Time.now - self.last_active) <= 10
   end
 
+
+  def user_is_active_admin
+    (Time.now - self.last_active) <= 60
+  end
+
   def self.get_group_info(user_id, group_id)
     if (user_id)
       update_last_active(user_id)
