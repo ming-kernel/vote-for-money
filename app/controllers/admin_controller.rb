@@ -113,12 +113,14 @@ private
     # group.betray_penalty = 0
     if (!group.save)
       puts "***** group save error *****"*100
+    end
 
     group_users.each do |u|
       u.round_id = 0
       u.group_id = group.id
       if (!u.save)
         puts "**** user save error *****"*100
+      end
     end
     group
   end
