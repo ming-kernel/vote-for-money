@@ -643,7 +643,7 @@ $(function() {
            
     }
 
-    window.setInterval(system_update, 2000);
+    window.setInterval(system_update, 5000);
 
 });
 
